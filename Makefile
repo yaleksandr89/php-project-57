@@ -80,10 +80,10 @@ test: init
 	$(DOCKER_COMPOSE) exec $(APP_SERVICE) php artisan test
 
 lint: init
-	$(DOCKER_COMPOSE) exec $(APP_SERVICE) ./vendor/bin/pint --test
+	$(DOCKER_COMPOSE) exec -T $(APP_SERVICE) ./vendor/bin/pint --test
 
 lint-fix: init
-	$(DOCKER_COMPOSE) exec $(APP_SERVICE) ./vendor/bin/pint
+	$(DOCKER_COMPOSE) exec -T $(APP_SERVICE) ./vendor/bin/pint
 
 hooks-init:
 	git config core.hooksPath .githooks

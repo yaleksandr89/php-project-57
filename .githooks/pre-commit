@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+echo "Запуск pre-commit проверок..."
+
+if [ ! -f "composer.json" ]; then
+    echo "Файл composer.json не найден"
+    exit 1
+fi
+
+if [ ! -f "Makefile" ]; then
+    echo "Файл Makefile не найден"
+    exit 1
+fi
+
+if [ ! -d "vendor" ]; then
+    echo "Директория vendor не найдена. Выполни composer install"
+    exit 1
+fi
+
+if [ ! -f ".env" ]; then
+    echo "Файл .env не найден"
+    exit 1
+fi
+
+make lint
+
+echo "Pre-commit проверки пройдены."
