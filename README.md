@@ -17,3 +17,34 @@
 ## Описание
 
 ...
+
+> В процессе формирования
+
+## Команды Makefile
+
+| Команда | Описание |
+|---|---|
+| `make init` | Создает `.env` из `.env.example`, если файла еще нет |
+| `make build` | Собирает docker-образы |
+| `make up` | Поднимает контейнеры в фоне с пересборкой |
+| `make down` | Останавливает контейнеры и удаляет orphan-контейнеры |
+| `make restart` | Перезапускает окружение |
+| `make logs` | Показывает логи контейнеров |
+| `make ps` | Показывает список контейнеров |
+| `make bash` | Открывает bash в PHP-контейнере |
+| `make composer-install` | Устанавливает PHP-зависимости |
+| `make composer-update` | Обновляет PHP-зависимости |
+| `make composer-dump-autoload` | Пересобирает autoload-карту Composer |
+| `make composer-validate` | Проверяет `composer.json` |
+| `make artisan` | Запускает `php artisan` в контейнере |
+| `make migrate` | Выполняет миграции |
+| `make migrate-fresh` | Пересоздает БД и запускает сиды |
+| `make seed` | Выполняет сиды |
+| `make cache-clear` | Безопасно очищает config / route / view / event cache |
+| `make cache-flush` | Очищает application cache |
+| `make cache-warm` | Прогревает config / route / view cache |
+| `make reset` | Выполняет `composer install`, `dump-autoload` и очистку кэшей |
+| `make test` | Запускает тесты |
+| `make lint` | Проверяет код через Laravel Pint |
+| `make lint-fix` | Исправляет стиль кода через Laravel Pint |
+| `make hooks-init` | Подключает git hooks из `.githooks` |
