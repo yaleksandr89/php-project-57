@@ -9,7 +9,6 @@ services:
         volumes:
             - .:/app
         environment:
-            APP_ENV: ${APP_ENV}
             PHP_IDE_CONFIG: serverName=${COMPOSE_PROJECT_NAME}
         extra_hosts:
             - "host.docker.internal:host-gateway"
@@ -17,7 +16,7 @@ services:
             - db
 
     nginx:
-        image: nginx:1.29-alpine
+        image: nginx:1.29-slim
         container_name: ${COMPOSE_PROJECT_NAME}-nginx
         restart: unless-stopped
         depends_on:
