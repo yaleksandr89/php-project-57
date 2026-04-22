@@ -1,6 +1,7 @@
 <section class="space-y-6">
     <header>
-        <h2 class="text-lg font-medium text-gray-900">
+        <h2 class="text-lg font-medium text-gray-900 inline-flex items-center gap-2">
+            <i class="bi bi-trash3"></i>
             {{ __('Delete Account') }}
         </h2>
 
@@ -12,7 +13,12 @@
     <x-danger-button
         x-data=""
         x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')"
-    >{{ __('Delete Account') }}</x-danger-button>
+    >
+        <span class="inline-flex items-center gap-2">
+            <i class="bi bi-trash3"></i>
+            <span>{{ __('Delete Account') }}</span>
+        </span>
+    </x-danger-button>
 
     <x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
         <form method="post" action="{{ route('profile.destroy') }}" class="p-6">
@@ -47,7 +53,10 @@
                 </x-secondary-button>
 
                 <x-danger-button class="ms-3">
-                    {{ __('Delete Account') }}
+                    <span class="inline-flex items-center gap-2">
+                        <i class="bi bi-trash3"></i>
+                        <span>{{ __('Delete Account') }}</span>
+                    </span>
                 </x-danger-button>
             </div>
         </form>

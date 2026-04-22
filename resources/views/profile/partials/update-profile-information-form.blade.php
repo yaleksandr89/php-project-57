@@ -1,6 +1,7 @@
 <section>
     <header>
-        <h2 class="text-lg font-medium text-gray-900">
+        <h2 class="text-lg font-medium text-gray-900 inline-flex items-center gap-2">
+            <i class="bi bi-person-vcard"></i>
             {{ __('Profile Information') }}
         </h2>
 
@@ -48,7 +49,12 @@
         </div>
 
         <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
+            <x-primary-button>
+                <span class="inline-flex items-center gap-2">
+                    <i class="bi bi-floppy"></i>
+                    <span>{{ __('Save') }}</span>
+                </span>
+            </x-primary-button>
 
             @if (session('status') === 'profile-updated')
                 <p
