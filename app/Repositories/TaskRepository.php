@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Models\Task;
+use App\Models\TaskStatus;
+use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 
 class TaskRepository
 {
@@ -35,5 +38,19 @@ class TaskRepository
     {
         $task
             ->delete();
+    }
+
+    public function findAllStatuses(): Collection
+    {
+        return TaskStatus::query()
+            ->orderBy('id', 'asc')
+            ->get();
+    }
+
+    public function findAllUsers(): Collection
+    {
+        return User::query()
+            ->orderBy('id', 'asc')
+            ->get();
     }
 }

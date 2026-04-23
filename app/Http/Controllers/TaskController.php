@@ -24,9 +24,12 @@ class TaskController extends Controller
         return view('tasks.index', compact('tasks'));
     }
 
-    public function create(): View
+    public function create(TaskRepository $taskRepository): View
     {
-        return view('tasks.create');
+        $taskStatuses = $taskRepository->findAllStatuses();
+        $users = $taskRepository->findAllUsers();
+
+        return view('tasks.create', compact('taskStatuses', 'users'));
     }
 
     public function store(
@@ -34,6 +37,8 @@ class TaskController extends Controller
         TaskCreator $taskCreator
     ): RedirectResponse {
         $taskCreator->create($request->validated(), Auth::user());
+
+        flash(__('tasks.flash.created'))->success();
 
         return redirect()->route('tasks.index');
     }
@@ -45,11 +50,14 @@ class TaskController extends Controller
         ]);
     }
 
-    public function edit(Task $task): View
-    {
-        return view('tasks.edit', [
-            'task' => $task,
-        ]);
+    public function edit(
+        Task $task,
+        TaskRepository $taskRepository
+    ): View {
+        $taskStatuses = $taskRepository->findAllStatuses();
+        $users = $taskRepository->findAllUsers();
+
+        return view('tasks.edit', compact('task', 'taskStatuses', 'users'));
     }
 
     public function update(
@@ -59,12 +67,16 @@ class TaskController extends Controller
     ): RedirectResponse {
         $taskUpdater->update($task, $request->validated());
 
+        flash(__('tasks.flash.updated'))->success();
+
         return redirect()->route('tasks.index');
     }
 
     public function destroy(Task $task, TaskDeleter $taskDeleter): RedirectResponse
     {
         $taskDeleter->delete($task, Auth::user());
+
+        flash(__('tasks.flash.deleted'))->success();
 
         return redirect()->route('tasks.index');
     }

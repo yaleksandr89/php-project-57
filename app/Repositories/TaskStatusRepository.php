@@ -12,7 +12,7 @@ class TaskStatusRepository
     public function getPaginated(): LengthAwarePaginator
     {
         return TaskStatus::query()
-            ->orderBy('id', 'asc')
+            ->orderBy('id', 'desc')
             ->paginate(15);
     }
 
