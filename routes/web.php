@@ -19,7 +19,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::resource('task_statuses', TaskStatusController::class);
+    Route::resource('task-statuses', TaskStatusController::class)
+        ->names('task_statuses');
 });
 
 require __DIR__.'/auth.php';
