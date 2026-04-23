@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTaskStatusRequest;
+use App\Http\Requests\UpdateTaskStatusRequest;
+use App\Models\TaskStatus;
 use App\Repositories\TaskStatusRepository;
 use App\Services\TaskStatusCreator;
-use Illuminate\Http\Request;
+use App\Services\TaskStatusUpdater;
+use Illuminate\Http\RedirectResponse;
 
 class TaskStatusController extends Controller
 {
@@ -18,21 +21,15 @@ class TaskStatusController extends Controller
         return view('task_statuses.index', compact('taskStatuses'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('task_statuses.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(
         StoreTaskStatusRequest $storeTaskStatusRequest,
         TaskStatusCreator $taskStatusCreator
-    ) {
+    ): RedirectResponse {
         $taskStatusCreator->create($storeTaskStatusRequest->validated());
 
         return redirect()->route('task_statuses.index');
@@ -46,20 +43,19 @@ class TaskStatusController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(TaskStatus $taskStatus)
     {
-        //
+        return view('task_statuses.edit', compact('taskStatus'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+    public function update(
+        UpdateTaskStatusRequest $updateTaskStatusRequest,
+        TaskStatus $taskStatus,
+        TaskStatusUpdater $taskStatusUpdater
+    ): RedirectResponse {
+        $taskStatusUpdater->update($taskStatus, $updateTaskStatusRequest->validated());
+
+        return redirect()->route('task_statuses.index');
     }
 
     /**

@@ -12,4 +12,9 @@ return [
         'name' => 'Name',
         'submit' => 'Create',
     ],
+    'edit' => [
+        'title' => 'Edit Task Status',
+        'name' => 'Name',
+        'submit' => 'Update',
+    ],
 ];

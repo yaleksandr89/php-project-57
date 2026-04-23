@@ -20,4 +20,11 @@ class TaskStatusRepository
         return TaskStatus::query()
             ->create($taskStatusData);
     }
+
+    public function update(TaskStatus $taskStatus, array $taskStatusData): TaskStatus
+    {
+        $taskStatus->update($taskStatusData);
+
+        return $taskStatus;
+    }
 }
