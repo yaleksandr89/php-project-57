@@ -76,6 +76,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                {{ $taskStatuses->links() }}
             </div>
         </div>
     </div>

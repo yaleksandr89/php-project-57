@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Models\TaskStatus;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class TaskStatusRepository
 {
-    public function getAll(): Collection
+    public function getPaginated(): LengthAwarePaginator
     {
         return TaskStatus::query()
             ->orderBy('id', 'asc')
-            ->get();
+            ->paginate(15);
     }
 
     public function create(array $taskStatusData): TaskStatus

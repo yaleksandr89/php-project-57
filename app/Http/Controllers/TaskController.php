@@ -19,11 +19,9 @@ class TaskController extends Controller
 {
     public function index(TaskRepository $taskRepository): View
     {
-        $tasks = $taskRepository->getAll();
+        $tasks = $taskRepository->getPaginated();
 
-        return view('tasks.index', [
-            'tasks' => $tasks,
-        ]);
+        return view('tasks.index', compact('tasks'));
     }
 
     public function create(): View

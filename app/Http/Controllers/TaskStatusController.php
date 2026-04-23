@@ -12,13 +12,14 @@ use App\Repositories\TaskStatusRepository;
 use App\Services\TaskStatusCreator;
 use App\Services\TaskStatusDeleter;
 use App\Services\TaskStatusUpdater;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 
 class TaskStatusController extends Controller
 {
-    public function index(TaskStatusRepository $taskStatusRepository)
+    public function index(TaskStatusRepository $taskStatusRepository): View
     {
-        $taskStatuses = $taskStatusRepository->getAll();
+        $taskStatuses = $taskStatusRepository->getPaginated();
 
         return view('task_statuses.index', compact('taskStatuses'));
     }
@@ -39,7 +40,7 @@ class TaskStatusController extends Controller
         return redirect()->route('task_statuses.index');
     }
 
-    public function edit(TaskStatus $taskStatus)
+    public function edit(TaskStatus $taskStatus): View
     {
         return view('task_statuses.edit', compact('taskStatus'));
     }

@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Models\Task;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class TaskRepository
 {
-    public function getAll(): Collection
+    public function getPaginated(): LengthAwarePaginator
     {
         return Task::query()
             ->with(['status', 'creator', 'assignee'])
             ->latest()
-            ->get();
+            ->paginate(15);
     }
 
     public function create(array $data): Task
