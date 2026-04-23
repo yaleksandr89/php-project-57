@@ -16,7 +16,7 @@ class TaskRepository
     {
         return Task::query()
             ->with(['status', 'creator', 'assignee'])
-            ->latest()
+            ->latest('id')
             ->paginate(15);
     }
 
