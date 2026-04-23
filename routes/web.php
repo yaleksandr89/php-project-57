@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TaskStatusController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,10 +19,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware('auth')->group(function () {
-    Route::resource('task-statuses', TaskStatusController::class)
-        ->except(['show'])
-        ->names('task_statuses');
-});
+Route::resource('task-statuses', TaskStatusController::class)
+    ->except(['show'])
+    ->middleware('auth')
+    ->names('task_statuses');
+
+Route::resource('tasks', TaskController::class)
+    ->middleware('auth')
+    ->names('tasks');
 
 require __DIR__.'/auth.php';
