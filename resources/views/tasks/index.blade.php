@@ -33,17 +33,21 @@
                         <tr>
                             <td>{{ $task->id }}</td>
                             <td>
-                                <a href="{{ route('tasks.show', $task) }}">
+                                <a href="{{ route('tasks.show', $task) }}" class="text-primary text-decoration-underline link-offset-2 link-underline link-underline-opacity-25">
                                     {{ $task->name }}
                                 </a>
                             </td>
                             <td>{{ $task->status->name }}</td>
                             <td>{{ $task->creator->name }}</td>
                             <td>{{ $task->assignee?->name ?? __('tasks.empty_assignee') }}</td>
-                            <td>{{ $task->created_at }}</td>
+                            <td>{{ $task->created_at->format('Y-m-d H:i:s') }}</td>
                             <td>
                                 @auth
                                     <div class="d-flex gap-2">
+                                        <a href="{{ route('tasks.show', $task) }}" class="btn btn-info btn-sm">
+                                            {{ __('tasks.buttons.show') }}
+                                        </a>
+
                                         <a href="{{ route('tasks.edit', $task) }}" class="btn btn-warning btn-sm">
                                             {{ __('tasks.buttons.edit') }}
                                         </a>

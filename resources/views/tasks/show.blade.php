@@ -36,7 +36,7 @@
                     </tr>
                     <tr>
                         <th>{{ __('tasks.fields.created_at') }}</th>
-                        <td>{{ $task->created_at }}</td>
+                        <td>{{ $task->created_at->format('Y-m-d H:i:s') }}</td>
                     </tr>
                     </tbody>
                 </table>

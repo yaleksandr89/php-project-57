@@ -22,6 +22,7 @@ return [
         'update' => 'Update',
         'edit' => 'Edit',
         'delete' => 'Delete',
+        'show' => 'Show',
     ],
     'flash' => [
         'created' => 'Task created successfully.',
