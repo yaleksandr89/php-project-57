@@ -5,7 +5,9 @@ return [
         'title' => 'Task Statuses',
         'id' => 'ID',
         'name' => 'Name',
+        'actions' => 'Actions',
         'create' => 'Create',
+        'edit' => 'Edit',
     ],
     'create' => [
         'title' => 'Create Task Status',
