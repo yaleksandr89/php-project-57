@@ -20,6 +20,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::resource('task-statuses', TaskStatusController::class)
+        ->except(['show'])
         ->names('task_statuses');
 });
 

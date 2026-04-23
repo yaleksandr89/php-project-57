@@ -38,11 +38,6 @@ class TaskStatusController extends Controller
         return redirect()->route('task_statuses.index');
     }
 
-    public function show(string $id)
-    {
-        //
-    }
-
     public function edit(TaskStatus $taskStatus)
     {
         return view('task_statuses.edit', compact('taskStatus'));
