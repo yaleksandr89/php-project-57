@@ -35,4 +35,11 @@ class TaskStatusRepository
         $taskStatus
             ->delete();
     }
+
+    public function isTaskStatusUsed(TaskStatus $taskStatus): bool
+    {
+        return $taskStatus
+            ->tasks()
+            ->exists();
+    }
 }

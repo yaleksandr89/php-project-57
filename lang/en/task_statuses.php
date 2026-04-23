@@ -24,6 +24,7 @@ return [
         'created' => 'Task status created successfully.',
         'updated' => 'Task status updated successfully.',
         'deleted' => 'Task status deleted successfully.',
+        'delete_failed' => 'Failed to delete task status.',
     ],
     'modal' => [
         'delete_title' => 'Delete task status',

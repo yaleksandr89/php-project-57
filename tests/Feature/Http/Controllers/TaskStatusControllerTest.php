@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Controllers;
 
+use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -179,6 +180,29 @@ class TaskStatusControllerTest extends TestCase
 
         $response->assertRedirect(route('task_statuses.index'));
         $this->assertDatabaseMissing('task_statuses', [
+            'id' => $taskStatus->id,
+        ]);
+    }
+
+    public function test_authenticated_user_cannot_delete_task_status_used_in_task(): void
+    {
+        /** @var User $user */
+        $user = User::factory()->create();
+
+        /** @var TaskStatus $taskStatus */
+        $taskStatus = TaskStatus::factory()->create();
+
+        Task::factory()->create([
+            'status_id' => $taskStatus->id,
+            'created_by_id' => $user->id,
+        ]);
+
+        $response = $this->actingAs($user)->delete(route('task_statuses.destroy', $taskStatus));
+
+        $response->assertRedirect(route('task_statuses.index'));
+        $response->assertSessionHas('flash_notification');
+
+        $this->assertDatabaseHas('task_statuses', [
             'id' => $taskStatus->id,
         ]);
     }

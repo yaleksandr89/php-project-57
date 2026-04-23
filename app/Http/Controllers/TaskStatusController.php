@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\TaskStatusIsUsedException;
 use App\Http\Requests\StoreTaskStatusRequest;
 use App\Http\Requests\UpdateTaskStatusRequest;
 use App\Models\TaskStatus;
@@ -59,9 +60,13 @@ class TaskStatusController extends Controller
         TaskStatus $taskStatus,
         TaskStatusDeleter $taskStatusDeleter
     ): RedirectResponse {
-        $taskStatusDeleter->delete($taskStatus);
+        try {
+            $taskStatusDeleter->delete($taskStatus);
 
-        flash(__('task_statuses.flash.deleted'))->success();
+            flash(__('task_statuses.flash.deleted'))->success();
+        } catch (TaskStatusIsUsedException) {
+            flash(__('task_statuses.flash.delete_failed'))->error();
+        }
 
         return redirect()->route('task_statuses.index');
     }
