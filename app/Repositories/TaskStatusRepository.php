@@ -12,6 +12,7 @@ class TaskStatusRepository
     public function getAll(): Collection
     {
         return TaskStatus::query()
+            ->orderBy('id', 'asc')
             ->get();
     }
 
@@ -23,8 +24,15 @@ class TaskStatusRepository
 
     public function update(TaskStatus $taskStatus, array $taskStatusData): TaskStatus
     {
-        $taskStatus->update($taskStatusData);
+        $taskStatus
+            ->update($taskStatusData);
 
         return $taskStatus;
+    }
+
+    public function delete(TaskStatus $taskStatus): void
+    {
+        $taskStatus
+            ->delete();
     }
 }

@@ -8,6 +8,7 @@ return [
         'actions' => 'Actions',
         'create' => 'Create',
         'edit' => 'Edit',
+        'delete' => 'Delete',
     ],
     'create' => [
         'title' => 'Create Task Status',

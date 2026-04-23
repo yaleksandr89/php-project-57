@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateTaskStatusRequest;
 use App\Models\TaskStatus;
 use App\Repositories\TaskStatusRepository;
 use App\Services\TaskStatusCreator;
+use App\Services\TaskStatusDeleter;
 use App\Services\TaskStatusUpdater;
 use Illuminate\Http\RedirectResponse;
 
@@ -58,11 +59,12 @@ class TaskStatusController extends Controller
         return redirect()->route('task_statuses.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+    public function destroy(
+        TaskStatus $taskStatus,
+        TaskStatusDeleter $taskStatusDeleter
+    ): RedirectResponse {
+        $taskStatusDeleter->delete($taskStatus);
+
+        return redirect()->route('task_statuses.index');
     }
 }

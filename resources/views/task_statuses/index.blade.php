@@ -31,9 +31,20 @@
                                 <td>{{ $status->name }}</td>
                                 <td>
                                     @auth
-                                        <a href="{{ route('task_statuses.edit', $status) }}" class="btn btn-warning btn-sm">
-                                            {{ __('task_statuses.index.edit') }}
-                                        </a>
+                                        <div class="d-flex gap-2">
+                                            <a href="{{ route('task_statuses.edit', $status) }}" class="btn btn-warning btn-sm">
+                                                {{ __('task_statuses.index.edit') }}
+                                            </a>
+
+                                            <form method="POST" action="{{ route('task_statuses.destroy', $status) }}">
+                                                @csrf
+                                                @method('DELETE')
+
+                                                <button type="submit" class="btn btn-danger btn-sm">
+                                                    {{ __('task_statuses.index.delete') }}
+                                                </button>
+                                            </form>
+                                        </div>
                                     @endauth
                                 </td>
                             </tr>
