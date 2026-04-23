@@ -11,6 +11,13 @@ class TaskStatusRepository
 {
     public function getAll(): Collection
     {
-        return TaskStatus::query()->get();
+        return TaskStatus::query()
+            ->get();
+    }
+
+    public function create(array $taskStatusData): TaskStatus
+    {
+        return TaskStatus::query()
+            ->create($taskStatusData);
     }
 }

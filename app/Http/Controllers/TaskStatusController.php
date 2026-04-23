@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTaskStatusRequest;
 use App\Repositories\TaskStatusRepository;
+use App\Services\TaskStatusCreator;
 use Illuminate\Http\Request;
 
 class TaskStatusController extends Controller
@@ -21,15 +23,19 @@ class TaskStatusController extends Controller
      */
     public function create()
     {
-        //
+        return view('task_statuses.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(
+        StoreTaskStatusRequest $storeTaskStatusRequest,
+        TaskStatusCreator $taskStatusCreator
+    ) {
+        $taskStatusCreator->create($storeTaskStatusRequest->validated());
+
+        return redirect()->route('task_statuses.index');
     }
 
     /**

@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Task Statuses
+            {{ __('task_statuses.index.title') }}
         </h2>
     </x-slot>
 
@@ -11,18 +11,18 @@
 
                 <table class="table">
                     <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                    </tr>
+                        <tr>
+                            <th>{{ __('task_statuses.index.id') }}</th>
+                            <th>{{ __('task_statuses.index.name') }}</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    @foreach ($taskStatuses as $status)
-                        <tr>
-                            <td>{{ $status->id }}</td>
-                            <td>{{ $status->name }}</td>
-                        </tr>
-                    @endforeach
+                        @foreach ($taskStatuses as $status)
+                            <tr>
+                                <td>{{ $status->id }}</td>
+                                <td>{{ $status->name }}</td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
 

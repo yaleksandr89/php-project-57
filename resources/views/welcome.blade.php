@@ -18,7 +18,7 @@
                                 <i class="bi bi-kanban fs-1 text-primary"></i>
                                 <div>
                                     <h1 class="h3 mb-1">{{ config('app.name', 'Task Manager') }}</h1>
-                                    <p class="text-muted mb-0">Task management application built with Laravel.</p>
+                                    <p class="text-muted mb-0">{{ __('welcome.subtitle') }}</p>
                                 </div>
                             </div>
 
@@ -26,18 +26,18 @@
                                 @auth
                                     <a href="{{ route('dashboard') }}" class="btn btn-primary">
                                         <i class="bi bi-speedometer2 me-1"></i>
-                                        Dashboard
+                                        {{ __('welcome.dashboard') }}
                                     </a>
                                 @else
                                     <a href="{{ route('login') }}" class="btn btn-primary">
                                         <i class="bi bi-box-arrow-in-right me-1"></i>
-                                        Log in
+                                        {{ __('welcome.log_in') }}
                                     </a>
 
                                     @if (Route::has('register'))
                                         <a href="{{ route('register') }}" class="btn btn-outline-primary">
                                             <i class="bi bi-person-plus me-1"></i>
-                                            Register
+                                            {{ __('welcome.register') }}
                                         </a>
                                     @endif
                                 @endauth
