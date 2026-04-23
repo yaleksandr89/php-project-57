@@ -20,4 +20,15 @@ return [
         'name' => 'Name',
         'submit' => 'Update',
     ],
+    'flash' => [
+        'created' => 'Task status created successfully.',
+        'updated' => 'Task status updated successfully.',
+        'deleted' => 'Task status deleted successfully.',
+    ],
+    'modal' => [
+        'delete_title' => 'Delete task status',
+        'delete_description' => 'Are you sure you want to delete this task status?',
+        'cancel' => 'Cancel',
+        'confirm' => 'Delete',
+    ],
 ];

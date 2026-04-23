@@ -33,12 +33,11 @@ class TaskStatusController extends Controller
     ): RedirectResponse {
         $taskStatusCreator->create($storeTaskStatusRequest->validated());
 
+        flash(__('task_statuses.flash.created'))->success();
+
         return redirect()->route('task_statuses.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
@@ -56,6 +55,8 @@ class TaskStatusController extends Controller
     ): RedirectResponse {
         $taskStatusUpdater->update($taskStatus, $updateTaskStatusRequest->validated());
 
+        flash(__('task_statuses.flash.updated'))->success();
+
         return redirect()->route('task_statuses.index');
     }
 
@@ -64,6 +65,8 @@ class TaskStatusController extends Controller
         TaskStatusDeleter $taskStatusDeleter
     ): RedirectResponse {
         $taskStatusDeleter->delete($taskStatus);
+
+        flash(__('task_statuses.flash.deleted'))->success();
 
         return redirect()->route('task_statuses.index');
     }

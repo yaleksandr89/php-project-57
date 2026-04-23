@@ -15,4 +15,9 @@ return [
     'save' => 'Save',
     'saved' => 'Saved.',
     'cancel' => 'Cancel',
+    'flash' => [
+        'updated' => 'Profile updated successfully.',
+        'password_updated' => 'Password updated successfully.',
+        'deleted' => 'Account deleted successfully.',
+    ],
 ];
