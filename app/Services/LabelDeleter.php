@@ -12,12 +12,13 @@ class LabelDeleter
 {
     public function __construct(
         private readonly LabelRepository $labelRepository,
-    ) {}
+    ) {
+    }
 
     public function delete(Label $label): void
     {
         if ($this->labelRepository->isLabelUsed($label)) {
-            throw new LabelIsUsedException;
+            throw new LabelIsUsedException();
         }
 
         $this->labelRepository->delete($label);

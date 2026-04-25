@@ -11,7 +11,8 @@ class LabelUpdater
 {
     public function __construct(
         private readonly LabelRepository $labelRepository,
-    ) {}
+    ) {
+    }
 
     public function update(Label $label, array $labelData): Label
     {

@@ -12,12 +12,13 @@ class TaskStatusDeleter
 {
     public function __construct(
         private readonly TaskStatusRepository $taskStatusRepository,
-    ) {}
+    ) {
+    }
 
     public function delete(TaskStatus $taskStatus): void
     {
         if ($this->taskStatusRepository->isTaskStatusUsed($taskStatus)) {
-            throw new TaskStatusIsUsedException;
+            throw new TaskStatusIsUsedException();
         }
 
         $this->taskStatusRepository->delete($taskStatus);

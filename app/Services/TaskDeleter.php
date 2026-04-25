@@ -12,11 +12,12 @@ class TaskDeleter
 {
     public function __construct(
         private readonly TaskRepository $taskRepository,
-    ) {}
+    ) {
+    }
 
     public function delete(Task $task, User $user): bool
     {
-        if ($task->created_by_id !== $user->id) {
+        if ($task->getAttribute('created_by_id') !== $user->id) {
             return false;
         }
 

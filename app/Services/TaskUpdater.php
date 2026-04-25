@@ -11,7 +11,8 @@ class TaskUpdater
 {
     public function __construct(
         private readonly TaskRepository $taskRepository,
-    ) {}
+    ) {
+    }
 
     public function update(Task $task, array $data): Task
     {

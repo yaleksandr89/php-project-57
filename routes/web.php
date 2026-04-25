@@ -50,4 +50,4 @@ Route::resource('labels', LabelController::class)
     ->middleware('auth')
     ->names('labels');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

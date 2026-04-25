@@ -12,7 +12,8 @@ class TaskCreator
 {
     public function __construct(
         private readonly TaskRepository $taskRepository,
-    ) {}
+    ) {
+    }
 
     public function create(array $data, User $creator): Task
     {

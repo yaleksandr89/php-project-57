@@ -11,7 +11,8 @@ class LabelCreator
 {
     public function __construct(
         private readonly LabelRepository $labelRepository,
-    ) {}
+    ) {
+    }
 
     public function create(array $labelData): Label
     {

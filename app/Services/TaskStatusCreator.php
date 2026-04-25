@@ -11,7 +11,8 @@ class TaskStatusCreator
 {
     public function __construct(
         private readonly TaskStatusRepository $taskStatusRepository,
-    ) {}
+    ) {
+    }
 
     public function create(array $taskStatusData): TaskStatus
     {
