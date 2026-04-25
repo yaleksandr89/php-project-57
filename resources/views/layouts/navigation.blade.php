@@ -23,7 +23,7 @@
                 </div>
             </div>
 
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
+            <div class="flex items-center ms-6">
                 @auth
                     <div class="flex items-center gap-4">
                         <span class="text-sm text-gray-500">
@@ -44,10 +44,6 @@
                     </div>
                 @else
                     <div class="flex gap-4">
-                        <a href="{{ route('login') }}" class="text-sm text-gray-500 hover:text-gray-700">
-                            {{ __('navigation.log_out') }}
-                        </a>
-
                         <a href="{{ route('login') }}" class="text-sm text-gray-500 hover:text-gray-700">
                             {{ __('auth.log_in') }}
                         </a>
@@ -108,10 +104,6 @@
                 </div>
             @else
                 <div class="mt-3 space-y-1">
-                    <x-responsive-nav-link :href="route('login')">
-                        {{ __('navigation.log_out') }}
-                    </x-responsive-nav-link>
-
                     <x-responsive-nav-link :href="route('login')">
                         {{ __('auth.log_in') }}
                     </x-responsive-nav-link>
