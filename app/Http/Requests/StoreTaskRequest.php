@@ -24,4 +24,12 @@ class StoreTaskRequest extends FormRequest
             'labels.*' => ['integer', 'exists:labels,id'],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Это обязательное поле',
+            'status_id.required' => 'Это обязательное поле',
+        ];
+    }
 }

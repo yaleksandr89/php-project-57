@@ -20,4 +20,12 @@ class StoreLabelRequest extends FormRequest
             'description' => ['nullable', 'string'],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Это обязательное поле',
+            'name.unique' => 'Метка с таким именем уже существует',
+        ];
+    }
 }

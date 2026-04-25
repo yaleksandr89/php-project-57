@@ -15,14 +15,20 @@ class StoreTaskStatusRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
-     *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
             'name' => ['required', 'string', 'max:255', 'unique:task_statuses,name'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Это обязательное поле',
+            'name.unique' => 'Статус с таким именем уже существует',
         ];
     }
 }
