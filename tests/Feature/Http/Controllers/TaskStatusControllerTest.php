@@ -14,11 +14,11 @@ class TaskStatusControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_guest_cannot_access_task_statuses_index(): void
+    public function test_guest_can_access_task_statuses_index(): void
     {
         $response = $this->get(route('task_statuses.index'));
 
-        $response->assertRedirect(route('login'));
+        $response->assertOk();
     }
 
     public function test_guest_cannot_access_task_statuses_create_page(): void

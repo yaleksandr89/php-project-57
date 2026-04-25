@@ -20,17 +20,33 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// Статусы
 Route::resource('task_statuses', TaskStatusController::class)
-    ->except(['show'])
+    ->only(['index'])
+    ->names('task_statuses');
+
+Route::resource('task_statuses', TaskStatusController::class)
+    ->except(['index', 'show'])
     ->middleware('auth')
     ->names('task_statuses');
 
+// Задачи
 Route::resource('tasks', TaskController::class)
+    ->only(['index'])
+    ->names('tasks');
+
+Route::resource('tasks', TaskController::class)
+    ->except(['index'])
     ->middleware('auth')
     ->names('tasks');
 
+// Метки
 Route::resource('labels', LabelController::class)
-    ->except(['show'])
+    ->only(['index'])
+    ->names('labels');
+
+Route::resource('labels', LabelController::class)
+    ->except(['index', 'show'])
     ->middleware('auth')
     ->names('labels');
 

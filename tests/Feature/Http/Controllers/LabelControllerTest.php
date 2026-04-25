@@ -14,11 +14,11 @@ class LabelControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_guest_cannot_access_labels_index(): void
+    public function test_guest_can_access_labels_index(): void
     {
         $response = $this->get(route('labels.index'));
 
-        $response->assertRedirect(route('login'));
+        $response->assertOk();
     }
 
     public function test_guest_cannot_access_labels_create_page(): void
