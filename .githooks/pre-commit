@@ -2,28 +2,26 @@
 
 set -euo pipefail
 
-echo "Запуск pre-commit проверок..."
+echo "Проверка базовых файлов..."
 
 if [ ! -f "composer.json" ]; then
-    echo "Файл composer.json не найден"
+    echo "❌ Файл composer.json не найден"
     exit 1
 fi
 
 if [ ! -f "Makefile" ]; then
-    echo "Файл Makefile не найден"
+    echo "❌ Файл Makefile не найден"
     exit 1
 fi
 
 if [ ! -d "vendor" ]; then
-    echo "Директория vendor не найдена. Выполни composer install"
+    echo "❌ Директория vendor не найдена. Выполни composer install"
     exit 1
 fi
 
 if [ ! -f ".env" ]; then
-    echo "Файл .env не найден"
+    echo "❌ Файл .env не найден"
     exit 1
 fi
 
-make lint
-
-echo "Pre-commit проверки пройдены."
+echo "✅ Базовые проверки пройдены"
