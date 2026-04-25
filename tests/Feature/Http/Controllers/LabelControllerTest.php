@@ -14,21 +14,21 @@ class LabelControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_guest_can_access_labels_index(): void
+    public function testGuestCanAccessLabelsIndex(): void
     {
         $response = $this->get(route('labels.index'));
 
         $response->assertOk();
     }
 
-    public function test_guest_cannot_access_labels_create_page(): void
+    public function testGuestCannotAccessLabelsCreatePage(): void
     {
         $response = $this->get(route('labels.create'));
 
         $response->assertRedirect(route('login'));
     }
 
-    public function test_guest_cannot_store_label(): void
+    public function testGuestCannotStoreLabel(): void
     {
         $response = $this->post(route('labels.store'), [
             'name' => 'bug',
@@ -41,7 +41,7 @@ class LabelControllerTest extends TestCase
         ]);
     }
 
-    public function test_guest_cannot_access_labels_edit_page(): void
+    public function testGuestCannotAccessLabelsEditPage(): void
     {
         /** @var Label $label */
         $label = Label::factory()->create();
@@ -51,7 +51,7 @@ class LabelControllerTest extends TestCase
         $response->assertRedirect(route('login'));
     }
 
-    public function test_guest_cannot_update_label(): void
+    public function testGuestCannotUpdateLabel(): void
     {
         /** @var Label $label */
         $label = Label::factory()->create([
@@ -70,7 +70,7 @@ class LabelControllerTest extends TestCase
         ]);
     }
 
-    public function test_guest_cannot_delete_label(): void
+    public function testGuestCannotDeleteLabel(): void
     {
         /** @var Label $label */
         $label = Label::factory()->create();
@@ -83,7 +83,7 @@ class LabelControllerTest extends TestCase
         ]);
     }
 
-    public function test_authenticated_user_can_view_labels_index(): void
+    public function testAuthenticatedUserCanViewLabelsIndex(): void
     {
         /** @var User $user */
         $user = User::factory()->create();
@@ -99,7 +99,7 @@ class LabelControllerTest extends TestCase
         $response->assertSee($labels[1]->name);
     }
 
-    public function test_authenticated_user_can_store_label(): void
+    public function testAuthenticatedUserCanStoreLabel(): void
     {
         /** @var User $user */
         $user = User::factory()->create();
@@ -117,7 +117,7 @@ class LabelControllerTest extends TestCase
         ]);
     }
 
-    public function test_store_label_validation_fails_when_name_is_empty(): void
+    public function testStoreLabelValidationFailsWhenNameIsEmpty(): void
     {
         /** @var User $user */
         $user = User::factory()->create();
@@ -133,7 +133,7 @@ class LabelControllerTest extends TestCase
         $response->assertSessionHasErrors('name');
     }
 
-    public function test_authenticated_user_can_view_label_edit_page(): void
+    public function testAuthenticatedUserCanViewLabelEditPage(): void
     {
         /** @var User $user */
         $user = User::factory()->create();
@@ -150,7 +150,7 @@ class LabelControllerTest extends TestCase
         $response->assertSee('Bug description');
     }
 
-    public function test_authenticated_user_can_update_label(): void
+    public function testAuthenticatedUserCanUpdateLabel(): void
     {
         /** @var User $user */
         $user = User::factory()->create();
@@ -174,7 +174,7 @@ class LabelControllerTest extends TestCase
         ]);
     }
 
-    public function test_update_label_validation_fails_when_name_is_empty(): void
+    public function testUpdateLabelValidationFailsWhenNameIsEmpty(): void
     {
         /** @var User $user */
         $user = User::factory()->create();
@@ -200,7 +200,7 @@ class LabelControllerTest extends TestCase
         ]);
     }
 
-    public function test_authenticated_user_can_delete_label(): void
+    public function testAuthenticatedUserCanDeleteLabel(): void
     {
         /** @var User $user */
         $user = User::factory()->create();
@@ -216,7 +216,7 @@ class LabelControllerTest extends TestCase
         ]);
     }
 
-    public function test_authenticated_user_cannot_delete_label_used_in_task(): void
+    public function testAuthenticatedUserCannotDeleteLabelUsedInTask(): void
     {
         /** @var User $user */
         $user = User::factory()->create();

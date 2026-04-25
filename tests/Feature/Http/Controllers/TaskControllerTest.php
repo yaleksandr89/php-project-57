@@ -15,21 +15,21 @@ class TaskControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_guest_can_access_tasks_index(): void
+    public function testGuestCanAccessTasksIndex(): void
     {
         $response = $this->get(route('tasks.index'));
 
         $response->assertOk();
     }
 
-    public function test_guest_cannot_access_task_create_page(): void
+    public function testGuestCannotAccessTaskCreatePage(): void
     {
         $response = $this->get(route('tasks.create'));
 
         $response->assertRedirect(route('login'));
     }
 
-    public function test_guest_cannot_store_task(): void
+    public function testGuestCannotStoreTask(): void
     {
         $taskStatus = TaskStatus::factory()->create();
         $assignee = User::factory()->create();
@@ -47,7 +47,7 @@ class TaskControllerTest extends TestCase
         ]);
     }
 
-    public function test_guest_cannot_access_task_show_page(): void
+    public function testGuestCannotAccessTaskShowPage(): void
     {
         $task = Task::factory()->create();
 
@@ -56,7 +56,7 @@ class TaskControllerTest extends TestCase
         $response->assertRedirect(route('login'));
     }
 
-    public function test_guest_cannot_access_task_edit_page(): void
+    public function testGuestCannotAccessTaskEditPage(): void
     {
         $task = Task::factory()->create();
 
@@ -65,7 +65,7 @@ class TaskControllerTest extends TestCase
         $response->assertRedirect(route('login'));
     }
 
-    public function test_guest_cannot_update_task(): void
+    public function testGuestCannotUpdateTask(): void
     {
         $task = Task::factory()->create([
             'name' => 'Old task',
@@ -74,8 +74,8 @@ class TaskControllerTest extends TestCase
         $response = $this->patch(route('tasks.update', $task), [
             'name' => 'Updated task',
             'description' => 'Updated description',
-            'status_id' => $task->status_id,
-            'assigned_to_id' => $task->assigned_to_id,
+            'status_id' => $task->getAttribute('status_id'),
+            'assigned_to_id' => $task->getAttribute('assigned_to_id'),
         ]);
 
         $response->assertRedirect(route('login'));
@@ -85,7 +85,7 @@ class TaskControllerTest extends TestCase
         ]);
     }
 
-    public function test_guest_cannot_delete_task(): void
+    public function testGuestCannotDeleteTask(): void
     {
         $task = Task::factory()->create();
 
@@ -97,7 +97,7 @@ class TaskControllerTest extends TestCase
         ]);
     }
 
-    public function test_authenticated_user_can_view_tasks_index(): void
+    public function testAuthenticatedUserCanViewTasksIndex(): void
     {
         $user = User::factory()->create();
         $tasks = Task::factory()->count(2)->create();
@@ -109,7 +109,7 @@ class TaskControllerTest extends TestCase
         $response->assertSee($tasks[1]->name);
     }
 
-    public function test_authenticated_user_can_view_task_show_page(): void
+    public function testAuthenticatedUserCanViewTaskShowPage(): void
     {
         $user = User::factory()->create();
         $task = Task::factory()->create([
@@ -124,7 +124,7 @@ class TaskControllerTest extends TestCase
         $response->assertSee('Important description');
     }
 
-    public function test_authenticated_user_can_store_task(): void
+    public function testAuthenticatedUserCanStoreTask(): void
     {
         $user = User::factory()->create();
         $taskStatus = TaskStatus::factory()->create();
@@ -147,7 +147,7 @@ class TaskControllerTest extends TestCase
         ]);
     }
 
-    public function test_authenticated_user_can_store_task_without_assignee(): void
+    public function testAuthenticatedUserCanStoreTaskWithoutAssignee(): void
     {
         $user = User::factory()->create();
         $taskStatus = TaskStatus::factory()->create();
@@ -168,7 +168,7 @@ class TaskControllerTest extends TestCase
         ]);
     }
 
-    public function test_store_task_validation_fails_when_name_is_empty(): void
+    public function testStoreTaskValidationFailsWhenNameIsEmpty(): void
     {
         $user = User::factory()->create();
         $taskStatus = TaskStatus::factory()->create();
@@ -186,7 +186,7 @@ class TaskControllerTest extends TestCase
         $response->assertSessionHasErrors('name');
     }
 
-    public function test_store_task_validation_fails_when_status_is_empty(): void
+    public function testStoreTaskValidationFailsWhenStatusIsEmpty(): void
     {
         $user = User::factory()->create();
 
@@ -203,7 +203,7 @@ class TaskControllerTest extends TestCase
         $response->assertSessionHasErrors('status_id');
     }
 
-    public function test_authenticated_user_can_view_task_edit_page(): void
+    public function testAuthenticatedUserCanViewTaskEditPage(): void
     {
         $user = User::factory()->create();
         $task = Task::factory()->create([
@@ -216,7 +216,7 @@ class TaskControllerTest extends TestCase
         $response->assertSee('Editable task');
     }
 
-    public function test_authenticated_user_can_update_task(): void
+    public function testAuthenticatedUserCanUpdateTask(): void
     {
         $user = User::factory()->create();
         $task = Task::factory()->create([
@@ -242,7 +242,7 @@ class TaskControllerTest extends TestCase
         ]);
     }
 
-    public function test_update_task_validation_fails_when_name_is_empty(): void
+    public function testUpdateTaskValidationFailsWhenNameIsEmpty(): void
     {
         $user = User::factory()->create();
         $task = Task::factory()->create([
@@ -254,8 +254,8 @@ class TaskControllerTest extends TestCase
             ->patch(route('tasks.update', $task), [
                 'name' => '',
                 'description' => 'Updated description',
-                'status_id' => $task->status_id,
-                'assigned_to_id' => $task->assigned_to_id,
+                'status_id' => $task->getAttribute('status_id'),
+                'assigned_to_id' => $task->getAttribute('assigned_to_id'),
             ]);
 
         $response->assertRedirect(route('tasks.edit', $task));
@@ -267,7 +267,7 @@ class TaskControllerTest extends TestCase
         ]);
     }
 
-    public function test_creator_can_delete_task(): void
+    public function testCreatorCanDeleteTask(): void
     {
         $creator = User::factory()->create();
         $task = Task::factory()->create([
@@ -282,7 +282,7 @@ class TaskControllerTest extends TestCase
         ]);
     }
 
-    public function test_not_creator_cannot_delete_task(): void
+    public function testNotCreatorCannotDeleteTask(): void
     {
         $creator = User::factory()->create();
         $anotherUser = User::factory()->create();
@@ -299,7 +299,7 @@ class TaskControllerTest extends TestCase
         ]);
     }
 
-    public function test_authenticated_user_can_store_task_with_labels(): void
+    public function testAuthenticatedUserCanStoreTaskWithLabels(): void
     {
         $user = User::factory()->create();
         $taskStatus = TaskStatus::factory()->create();
@@ -331,7 +331,7 @@ class TaskControllerTest extends TestCase
         ]);
     }
 
-    public function test_authenticated_user_can_update_task_labels(): void
+    public function testAuthenticatedUserCanUpdateTaskLabels(): void
     {
         $user = User::factory()->create();
         $task = Task::factory()->create();
@@ -343,8 +343,8 @@ class TaskControllerTest extends TestCase
         $response = $this->actingAs($user)->patch(route('tasks.update', $task), [
             'name' => 'Updated task labels',
             'description' => 'Updated description',
-            'status_id' => $task->status_id,
-            'assigned_to_id' => $task->assigned_to_id,
+            'status_id' => $task->getAttribute('status_id'),
+            'assigned_to_id' => $task->getAttribute('assigned_to_id'),
             'labels' => [$newLabel->id],
         ]);
 
@@ -361,7 +361,7 @@ class TaskControllerTest extends TestCase
         ]);
     }
 
-    public function test_authenticated_user_can_remove_all_task_labels(): void
+    public function testAuthenticatedUserCanRemoveAllTaskLabels(): void
     {
         $user = User::factory()->create();
         $task = Task::factory()->create();
@@ -372,8 +372,8 @@ class TaskControllerTest extends TestCase
         $response = $this->actingAs($user)->patch(route('tasks.update', $task), [
             'name' => 'Task without labels',
             'description' => 'Updated description',
-            'status_id' => $task->status_id,
-            'assigned_to_id' => $task->assigned_to_id,
+            'status_id' => $task->getAttribute('status_id'),
+            'assigned_to_id' => $task->getAttribute('assigned_to_id'),
             'labels' => [],
         ]);
 
@@ -385,7 +385,7 @@ class TaskControllerTest extends TestCase
         ]);
     }
 
-    public function test_store_task_validation_fails_when_label_does_not_exist(): void
+    public function testStoreTaskValidationFailsWhenLabelDoesNotExist(): void
     {
         $user = User::factory()->create();
         $taskStatus = TaskStatus::factory()->create();
@@ -404,7 +404,7 @@ class TaskControllerTest extends TestCase
         $response->assertSessionHasErrors('labels.0');
     }
 
-    public function test_update_task_validation_fails_when_label_does_not_exist(): void
+    public function testUpdateTaskValidationFailsWhenLabelDoesNotExist(): void
     {
         $user = User::factory()->create();
         $task = Task::factory()->create();
@@ -414,8 +414,8 @@ class TaskControllerTest extends TestCase
             ->patch(route('tasks.update', $task), [
                 'name' => 'Task with invalid label',
                 'description' => 'Task description',
-                'status_id' => $task->status_id,
-                'assigned_to_id' => $task->assigned_to_id,
+                'status_id' => $task->getAttribute('status_id'),
+                'assigned_to_id' => $task->getAttribute('assigned_to_id'),
                 'labels' => [999999],
             ]);
 
@@ -423,7 +423,7 @@ class TaskControllerTest extends TestCase
         $response->assertSessionHasErrors('labels.0');
     }
 
-    public function test_authenticated_user_can_view_task_labels_on_show_page(): void
+    public function testAuthenticatedUserCanViewTaskLabelsOnShowPage(): void
     {
         $user = User::factory()->create();
 
@@ -443,7 +443,7 @@ class TaskControllerTest extends TestCase
         $response->assertSee($labels[1]->name);
     }
 
-    public function test_authenticated_user_can_filter_tasks_by_status(): void
+    public function testAuthenticatedUserCanFilterTasksByStatus(): void
     {
         $user = User::factory()->create();
         $taskStatus = TaskStatus::factory()->create();
@@ -470,7 +470,7 @@ class TaskControllerTest extends TestCase
         $response->assertDontSee($hiddenTask->name);
     }
 
-    public function test_authenticated_user_can_filter_tasks_by_creator(): void
+    public function testAuthenticatedUserCanFilterTasksByCreator(): void
     {
         $user = User::factory()->create();
         $creator = User::factory()->create();
@@ -497,7 +497,7 @@ class TaskControllerTest extends TestCase
         $response->assertDontSee($hiddenTask->name);
     }
 
-    public function test_authenticated_user_can_filter_tasks_by_assignee(): void
+    public function testAuthenticatedUserCanFilterTasksByAssignee(): void
     {
         $user = User::factory()->create();
         $assignee = User::factory()->create();
@@ -524,7 +524,7 @@ class TaskControllerTest extends TestCase
         $response->assertDontSee($hiddenTask->name);
     }
 
-    public function test_authenticated_user_can_filter_tasks_by_label(): void
+    public function testAuthenticatedUserCanFilterTasksByLabel(): void
     {
         $user = User::factory()->create();
         $label = Label::factory()->create();

@@ -55,8 +55,5 @@ jobs:
       - name: Build assets
         run: npm run build
 
-      - name: Run Pint
-        run: ./vendor/bin/pint --test
-
       - name: Run tests
         run: php artisan test

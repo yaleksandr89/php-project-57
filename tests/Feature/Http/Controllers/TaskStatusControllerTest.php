@@ -14,21 +14,21 @@ class TaskStatusControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_guest_can_access_task_statuses_index(): void
+    public function testGuestCanAccessTaskStatusesIndex(): void
     {
         $response = $this->get(route('task_statuses.index'));
 
         $response->assertOk();
     }
 
-    public function test_guest_cannot_access_task_statuses_create_page(): void
+    public function testGuestCannotAccessTaskStatusesCreatePage(): void
     {
         $response = $this->get(route('task_statuses.create'));
 
         $response->assertRedirect(route('login'));
     }
 
-    public function test_guest_cannot_store_task_status(): void
+    public function testGuestCannotStoreTaskStatus(): void
     {
         $response = $this->post(route('task_statuses.store'), [
             'name' => 'New status',
@@ -38,7 +38,7 @@ class TaskStatusControllerTest extends TestCase
         $this->assertDatabaseMissing('task_statuses', ['name' => 'New status']);
     }
 
-    public function test_guest_cannot_access_task_statuses_edit_page(): void
+    public function testGuestCannotAccessTaskStatusesEditPage(): void
     {
         $taskStatus = TaskStatus::factory()->create();
 
@@ -47,7 +47,7 @@ class TaskStatusControllerTest extends TestCase
         $response->assertRedirect(route('login'));
     }
 
-    public function test_guest_cannot_update_task_status(): void
+    public function testGuestCannotUpdateTaskStatus(): void
     {
         $taskStatus = TaskStatus::factory()->create([
             'name' => 'Old status',
@@ -64,7 +64,7 @@ class TaskStatusControllerTest extends TestCase
         ]);
     }
 
-    public function test_guest_cannot_delete_task_status(): void
+    public function testGuestCannotDeleteTaskStatus(): void
     {
         $taskStatus = TaskStatus::factory()->create();
 
@@ -76,7 +76,7 @@ class TaskStatusControllerTest extends TestCase
         ]);
     }
 
-    public function test_authenticated_user_can_view_task_statuses_index(): void
+    public function testAuthenticatedUserCanViewTaskStatusesIndex(): void
     {
         $user = User::factory()->create();
         $taskStatuses = TaskStatus::factory()->count(2)->create();
@@ -88,7 +88,7 @@ class TaskStatusControllerTest extends TestCase
         $response->assertSee($taskStatuses[1]->name);
     }
 
-    public function test_authenticated_user_can_store_task_status(): void
+    public function testAuthenticatedUserCanStoreTaskStatus(): void
     {
         $user = User::factory()->create();
 
@@ -102,7 +102,7 @@ class TaskStatusControllerTest extends TestCase
         ]);
     }
 
-    public function test_store_task_status_validation_fails_when_name_is_empty(): void
+    public function testStoreTaskStatusValidationFailsWhenNameIsEmpty(): void
     {
         $user = User::factory()->create();
 
@@ -116,7 +116,7 @@ class TaskStatusControllerTest extends TestCase
         $response->assertSessionHasErrors('name');
     }
 
-    public function test_authenticated_user_can_view_task_status_edit_page(): void
+    public function testAuthenticatedUserCanViewTaskStatusEditPage(): void
     {
         $user = User::factory()->create();
         $taskStatus = TaskStatus::factory()->create([
@@ -129,7 +129,7 @@ class TaskStatusControllerTest extends TestCase
         $response->assertSee('In progress');
     }
 
-    public function test_authenticated_user_can_update_task_status(): void
+    public function testAuthenticatedUserCanUpdateTaskStatus(): void
     {
         $user = User::factory()->create();
         $taskStatus = TaskStatus::factory()->create([
@@ -147,7 +147,7 @@ class TaskStatusControllerTest extends TestCase
         ]);
     }
 
-    public function test_update_task_status_validation_fails_when_name_is_empty(): void
+    public function testUpdateTaskStatusValidationFailsWhenNameIsEmpty(): void
     {
         $user = User::factory()->create();
         $taskStatus = TaskStatus::factory()->create([
@@ -169,7 +169,7 @@ class TaskStatusControllerTest extends TestCase
         ]);
     }
 
-    public function test_authenticated_user_can_delete_task_status(): void
+    public function testAuthenticatedUserCanDeleteTaskStatus(): void
     {
         /** @var User $user */
         $user = User::factory()->create();
@@ -184,7 +184,7 @@ class TaskStatusControllerTest extends TestCase
         ]);
     }
 
-    public function test_authenticated_user_cannot_delete_task_status_used_in_task(): void
+    public function testAuthenticatedUserCannotDeleteTaskStatusUsedInTask(): void
     {
         /** @var User $user */
         $user = User::factory()->create();
