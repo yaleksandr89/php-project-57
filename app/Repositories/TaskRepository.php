@@ -25,7 +25,7 @@ class TaskRepository
                 AllowedFilter::scope('label_id'),
             )
             ->with(['status', 'creator', 'assignee', 'labels'])
-            ->latest('id')
+            ->orderBy('id')
             ->paginate(15)
             ->withQueryString();
     }

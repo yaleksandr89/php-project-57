@@ -12,7 +12,7 @@ class LabelRepository
     public function getPaginated(): LengthAwarePaginator
     {
         return Label::query()
-            ->latest('id')
+            ->orderBy('id')
             ->paginate(15);
     }
 

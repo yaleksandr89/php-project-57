@@ -36,46 +36,26 @@
                                                 {{ __('task_statuses.index.edit') }}
                                             </a>
 
-                                            <button
-                                                type="button"
-                                                class="btn btn-danger btn-sm"
-                                                x-data=""
-                                                x-on:click.prevent="$dispatch('open-modal', 'confirm-task-status-deletion-{{ $status->id }}')"
-                                            >
-                                                {{ __('task_statuses.index.delete') }}
-                                            </button>
-                                        </div>
-
-                                        <x-modal name="confirm-task-status-deletion-{{ $status->id }}" focusable>
-                                            <form method="POST" action="{{ route('task_statuses.destroy', $status) }}" class="p-6">
+                                            <form method="POST" action="{{ route('task_statuses.destroy', $status) }}">
                                                 @csrf
                                                 @method('DELETE')
 
-                                                <h2 class="text-lg font-medium text-gray-900">
-                                                    {{ __('task_statuses.modal.delete_title') }}
-                                                </h2>
-
-                                                <p class="mt-1 text-sm text-gray-600">
-                                                    {{ __('task_statuses.modal.delete_description') }}
-                                                </p>
-
-                                                <div class="mt-6 flex justify-end">
-                                                    <x-secondary-button x-on:click="$dispatch('close')">
-                                                        {{ __('task_statuses.modal.cancel') }}
-                                                    </x-secondary-button>
-
-                                                    <x-danger-button class="ms-3">
-                                                        {{ __('task_statuses.modal.confirm') }}
-                                                    </x-danger-button>
-                                                </div>
+                                                <a
+                                                    href="{{ route('task_statuses.destroy', $status) }}"
+                                                    class="btn btn-danger btn-sm"
+                                                    onclick="event.preventDefault(); if (confirm('{{ __('task_statuses.modal.delete_title') }}')) { this.closest('form').submit(); }"
+                                                >
+                                                    {{ __('task_statuses.index.delete') }}
+                                                </a>
                                             </form>
-                                        </x-modal>
+                                        </div>
                                     @endauth
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
+
                 {{ $taskStatuses->links() }}
             </div>
         </div>
