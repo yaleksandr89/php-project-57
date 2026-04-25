@@ -15,6 +15,12 @@ class TaskUpdater
 
     public function update(Task $task, array $data): Task
     {
-        return $this->taskRepository->update($task, $data);
+        $labelIds = $data['labels'] ?? [];
+        unset($data['labels']);
+
+        $task = $this->taskRepository->update($task, $data);
+        $task->labels()->sync($labelIds);
+
+        return $task;
     }
 }

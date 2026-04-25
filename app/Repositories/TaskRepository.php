@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\Models\Label;
 use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Models\User;
@@ -15,7 +16,7 @@ class TaskRepository
     public function getPaginated(): LengthAwarePaginator
     {
         return Task::query()
-            ->with(['status', 'creator', 'assignee'])
+            ->with(['status', 'creator', 'assignee', 'labels'])
             ->latest('id')
             ->paginate(15);
     }
@@ -50,6 +51,13 @@ class TaskRepository
     public function findAllUsers(): Collection
     {
         return User::query()
+            ->orderBy('id', 'asc')
+            ->get();
+    }
+
+    public function findAllLabels(): Collection
+    {
+        return Label::query()
             ->orderBy('id', 'asc')
             ->get();
     }

@@ -22,6 +22,7 @@
                         <th>{{ __('tasks.fields.id') }}</th>
                         <th>{{ __('tasks.fields.name') }}</th>
                         <th>{{ __('tasks.fields.status') }}</th>
+                        <th>{{ __('tasks.fields.labels') }}</th>
                         <th>{{ __('tasks.fields.creator') }}</th>
                         <th>{{ __('tasks.fields.assignee') }}</th>
                         <th>{{ __('tasks.fields.created_at') }}</th>
@@ -38,6 +39,13 @@
                                 </a>
                             </td>
                             <td>{{ $task->status->name }}</td>
+                            <td>
+                                @forelse ($task->labels as $label)
+                                    <span class="badge bg-secondary">{{ $label->name }}</span>
+                                @empty
+                                    {{ __('tasks.empty_labels') }}
+                                @endforelse
+                            </td>
                             <td>{{ $task->creator->name }}</td>
                             <td>{{ $task->assignee?->name ?? __('tasks.empty_assignee') }}</td>
                             <td>{{ $task->created_at->format('Y-m-d H:i:s') }}</td>

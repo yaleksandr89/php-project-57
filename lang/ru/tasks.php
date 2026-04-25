@@ -7,6 +7,7 @@ return [
     'show' => 'Просмотр задачи',
     'empty_assignee' => 'Не назначен',
     'empty_description' => 'Описание отсутствует',
+    'empty_labels' => 'Метки отсутствуют',
     'fields' => [
         'id' => 'ID',
         'name' => 'Имя',
@@ -16,6 +17,7 @@ return [
         'assignee' => 'Исполнитель',
         'created_at' => 'Дата создания',
         'actions' => 'Действия',
+        'labels' => 'Метки',
     ],
     'buttons' => [
         'create' => 'Создать',

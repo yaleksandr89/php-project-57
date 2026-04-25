@@ -85,6 +85,44 @@
     @enderror
 </div>
 
+<div class="mb-3">
+    <label for="labels" class="form-label">
+        {{ __('tasks.fields.labels') }}
+    </label>
+
+    <select
+        id="labels"
+        name="labels[]"
+        class="form-control @error('labels') is-invalid @enderror @error('labels.*') is-invalid @enderror"
+        multiple
+        data-placeholder="{{ __('tasks.fields.labels') }}"
+    >
+        @foreach ($labels as $label)
+            <option
+                value="{{ $label->id }}"
+                @selected(in_array(
+                    $label->id,
+                    old(
+                        'labels',
+                        isset($task) ? $task->labels->pluck('id')->all() : []
+                    ),
+                    true
+                ))
+            >
+                {{ $label->name }}
+            </option>
+        @endforeach
+    </select>
+
+    @error('labels')
+    <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+
+    @error('labels.*')
+    <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+</div>
+
 <button type="submit" class="btn btn-primary">
     {{ $buttonText }}
 </button>

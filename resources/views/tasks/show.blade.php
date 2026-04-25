@@ -27,6 +27,16 @@
                         <td>{{ $task->status->name }}</td>
                     </tr>
                     <tr>
+                        <th>{{ __('tasks.fields.labels') }}</th>
+                        <td>
+                            @forelse ($task->labels as $label)
+                                <span class="badge bg-secondary">{{ $label->name }}</span>
+                            @empty
+                                {{ __('tasks.empty_labels') }}
+                            @endforelse
+                        </td>
+                    </tr>
+                    <tr>
                         <th>{{ __('tasks.fields.creator') }}</th>
                         <td>{{ $task->creator->name }}</td>
                     </tr>

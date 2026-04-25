@@ -7,6 +7,7 @@ return [
     'show' => 'Show task',
     'empty_assignee' => 'Not assigned',
     'empty_description' => 'No description',
+    'empty_labels' => 'No labels',
     'fields' => [
         'id' => 'ID',
         'name' => 'Name',
@@ -16,6 +17,7 @@ return [
         'assignee' => 'Assignee',
         'created_at' => 'Created at',
         'actions' => 'Actions',
+        'labels' => 'Labels',
     ],
     'buttons' => [
         'create' => 'Create',

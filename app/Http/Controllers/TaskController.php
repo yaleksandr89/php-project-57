@@ -28,8 +28,12 @@ class TaskController extends Controller
     {
         $taskStatuses = $taskRepository->findAllStatuses();
         $users = $taskRepository->findAllUsers();
+        $labels = $taskRepository->findAllLabels();
 
-        return view('tasks.create', compact('taskStatuses', 'users'));
+        return view(
+            'tasks.create',
+            compact('taskStatuses', 'users', 'labels')
+        );
     }
 
     public function store(
@@ -56,8 +60,12 @@ class TaskController extends Controller
     ): View {
         $taskStatuses = $taskRepository->findAllStatuses();
         $users = $taskRepository->findAllUsers();
+        $labels = $taskRepository->findAllLabels();
 
-        return view('tasks.edit', compact('task', 'taskStatuses', 'users'));
+        return view(
+            'tasks.edit',
+            compact('task', 'taskStatuses', 'users', 'labels')
+        );
     }
 
     public function update(

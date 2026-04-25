@@ -16,8 +16,14 @@ class TaskCreator
 
     public function create(array $data, User $creator): Task
     {
+        $labelIds = $data['labels'] ?? [];
+        unset($data['labels']);
+
         $data['created_by_id'] = $creator->id;
 
-        return $this->taskRepository->create($data);
+        $task = $this->taskRepository->create($data);
+        $task->labels()->sync($labelIds);
+
+        return $task;
     }
 }

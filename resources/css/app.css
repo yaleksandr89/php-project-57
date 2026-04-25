@@ -3,6 +3,7 @@
 @import "@fontsource/figtree/600.css";
 @import "bootstrap/dist/css/bootstrap.min.css";
 @import "bootstrap-icons/font/bootstrap-icons.css";
+@import 'choices.js/public/assets/styles/choices.min.css';
 
 @tailwind base;
 @tailwind components;
