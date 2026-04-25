@@ -139,7 +139,7 @@
                             </td>
                             <td>{{ $task->creator->name }}</td>
                             <td>{{ $task->assignee?->name ?? __('tasks.empty_assignee') }}</td>
-                            <td>{{ $task->created_at->format('Y-m-d H:i:s') }}</td>
+                            <td>{{ $task->created_at->format('d.m.Y') }}</td>
                             <td>
                                 @auth
                                     <div class="d-flex gap-2">
