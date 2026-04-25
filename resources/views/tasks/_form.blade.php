@@ -1,3 +1,12 @@
+@php
+    $selectedLabelIds = collect(old(
+        'labels',
+        isset($task) ? $task->labels->pluck('id')->all() : []
+    ))
+        ->map(fn ($labelId) => (int) $labelId)
+        ->all();
+@endphp
+
 <div class="mb-3">
     <label for="name" class="form-label">
         {{ __('tasks.fields.name') }}
@@ -100,14 +109,7 @@
         @foreach ($labels as $label)
             <option
                 value="{{ $label->id }}"
-                @selected(in_array(
-                    $label->id,
-                    old(
-                        'labels',
-                        isset($task) ? $task->labels->pluck('id')->all() : []
-                    ),
-                    true
-                ))
+                @selected(in_array($label->id, $selectedLabelIds, true))
             >
                 {{ $label->name }}
             </option>
