@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Controllers;
 
+use App\Models\Label;
 use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Models\User;
@@ -296,5 +297,149 @@ class TaskControllerTest extends TestCase
         $this->assertDatabaseHas('tasks', [
             'id' => $task->id,
         ]);
+    }
+
+    public function test_authenticated_user_can_store_task_with_labels(): void
+    {
+        $user = User::factory()->create();
+        $taskStatus = TaskStatus::factory()->create();
+        $assignee = User::factory()->create();
+        $labels = Label::factory()->count(2)->create();
+
+        $response = $this->actingAs($user)->post(route('tasks.store'), [
+            'name' => 'Task with labels',
+            'description' => 'Task description',
+            'status_id' => $taskStatus->id,
+            'assigned_to_id' => $assignee->id,
+            'labels' => $labels->pluck('id')->all(),
+        ]);
+
+        $response->assertRedirect(route('tasks.index'));
+
+        $task = Task::query()
+            ->where('name', 'Task with labels')
+            ->firstOrFail();
+
+        $this->assertDatabaseHas('label_task', [
+            'task_id' => $task->id,
+            'label_id' => $labels[0]->id,
+        ]);
+
+        $this->assertDatabaseHas('label_task', [
+            'task_id' => $task->id,
+            'label_id' => $labels[1]->id,
+        ]);
+    }
+
+    public function test_authenticated_user_can_update_task_labels(): void
+    {
+        $user = User::factory()->create();
+        $task = Task::factory()->create();
+        $oldLabel = Label::factory()->create();
+        $newLabel = Label::factory()->create();
+
+        $task->labels()->attach($oldLabel);
+
+        $response = $this->actingAs($user)->patch(route('tasks.update', $task), [
+            'name' => 'Updated task labels',
+            'description' => 'Updated description',
+            'status_id' => $task->status_id,
+            'assigned_to_id' => $task->assigned_to_id,
+            'labels' => [$newLabel->id],
+        ]);
+
+        $response->assertRedirect(route('tasks.index'));
+
+        $this->assertDatabaseMissing('label_task', [
+            'task_id' => $task->id,
+            'label_id' => $oldLabel->id,
+        ]);
+
+        $this->assertDatabaseHas('label_task', [
+            'task_id' => $task->id,
+            'label_id' => $newLabel->id,
+        ]);
+    }
+
+    public function test_authenticated_user_can_remove_all_task_labels(): void
+    {
+        $user = User::factory()->create();
+        $task = Task::factory()->create();
+        $label = Label::factory()->create();
+
+        $task->labels()->attach($label);
+
+        $response = $this->actingAs($user)->patch(route('tasks.update', $task), [
+            'name' => 'Task without labels',
+            'description' => 'Updated description',
+            'status_id' => $task->status_id,
+            'assigned_to_id' => $task->assigned_to_id,
+            'labels' => [],
+        ]);
+
+        $response->assertRedirect(route('tasks.index'));
+
+        $this->assertDatabaseMissing('label_task', [
+            'task_id' => $task->id,
+            'label_id' => $label->id,
+        ]);
+    }
+
+    public function test_store_task_validation_fails_when_label_does_not_exist(): void
+    {
+        $user = User::factory()->create();
+        $taskStatus = TaskStatus::factory()->create();
+
+        $response = $this->actingAs($user)
+            ->from(route('tasks.create'))
+            ->post(route('tasks.store'), [
+                'name' => 'Task with invalid label',
+                'description' => 'Task description',
+                'status_id' => $taskStatus->id,
+                'assigned_to_id' => null,
+                'labels' => [999999],
+            ]);
+
+        $response->assertRedirect(route('tasks.create'));
+        $response->assertSessionHasErrors('labels.0');
+    }
+
+    public function test_update_task_validation_fails_when_label_does_not_exist(): void
+    {
+        $user = User::factory()->create();
+        $task = Task::factory()->create();
+
+        $response = $this->actingAs($user)
+            ->from(route('tasks.edit', $task))
+            ->patch(route('tasks.update', $task), [
+                'name' => 'Task with invalid label',
+                'description' => 'Task description',
+                'status_id' => $task->status_id,
+                'assigned_to_id' => $task->assigned_to_id,
+                'labels' => [999999],
+            ]);
+
+        $response->assertRedirect(route('tasks.edit', $task));
+        $response->assertSessionHasErrors('labels.0');
+    }
+
+    public function test_authenticated_user_can_view_task_labels_on_show_page(): void
+    {
+        $user = User::factory()->create();
+
+        $task = Task::factory()->create([
+            'name' => 'Task with visible labels',
+        ]);
+
+        $labels = Label::factory()->count(2)->create();
+
+        $task->labels()->attach($labels);
+
+        $response = $this->actingAs($user)->get(route('tasks.show', $task));
+
+        $response->assertOk();
+        $response->assertSee('Task with visible labels');
+        $response->assertSee($labels[0]->name);
+        $response->assertSee($labels[1]->name);
     }
 }
