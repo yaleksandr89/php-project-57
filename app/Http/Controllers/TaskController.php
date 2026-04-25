@@ -20,8 +20,14 @@ class TaskController extends Controller
     public function index(TaskRepository $taskRepository): View
     {
         $tasks = $taskRepository->getPaginated();
+        $taskStatuses = $taskRepository->findAllStatuses();
+        $users = $taskRepository->findAllUsers();
+        $labels = $taskRepository->findAllLabels();
 
-        return view('tasks.index', compact('tasks'));
+        return view(
+            'tasks.index',
+            compact('tasks', 'taskStatuses', 'users', 'labels')
+        );
     }
 
     public function create(TaskRepository $taskRepository): View

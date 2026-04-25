@@ -25,6 +25,16 @@ return [
         'edit' => 'Edit',
         'delete' => 'Delete',
         'show' => 'Show',
+        'filter' => 'Apply',
+        'reset' => 'Reset',
+    ],
+    'filters' => [
+        'title' => 'Filter',
+        'status' => 'Status',
+        'creator' => 'Creator',
+        'assignee' => 'Assignee',
+        'label' => 'Label',
+        'empty' => 'Any',
     ],
     'flash' => [
         'created' => 'Task created successfully.',
