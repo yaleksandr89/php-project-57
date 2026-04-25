@@ -442,4 +442,113 @@ class TaskControllerTest extends TestCase
         $response->assertSee($labels[0]->name);
         $response->assertSee($labels[1]->name);
     }
+
+    public function test_authenticated_user_can_filter_tasks_by_status(): void
+    {
+        $user = User::factory()->create();
+        $taskStatus = TaskStatus::factory()->create();
+        $anotherTaskStatus = TaskStatus::factory()->create();
+
+        $visibleTask = Task::factory()->create([
+            'name' => 'Visible status task',
+            'status_id' => $taskStatus->id,
+        ]);
+
+        $hiddenTask = Task::factory()->create([
+            'name' => 'Hidden status task',
+            'status_id' => $anotherTaskStatus->id,
+        ]);
+
+        $response = $this->actingAs($user)->get(route('tasks.index', [
+            'filter' => [
+                'status_id' => $taskStatus->id,
+            ],
+        ]));
+
+        $response->assertOk();
+        $response->assertSee($visibleTask->name);
+        $response->assertDontSee($hiddenTask->name);
+    }
+
+    public function test_authenticated_user_can_filter_tasks_by_creator(): void
+    {
+        $user = User::factory()->create();
+        $creator = User::factory()->create();
+        $anotherCreator = User::factory()->create();
+
+        $visibleTask = Task::factory()->create([
+            'name' => 'Visible creator task',
+            'created_by_id' => $creator->id,
+        ]);
+
+        $hiddenTask = Task::factory()->create([
+            'name' => 'Hidden creator task',
+            'created_by_id' => $anotherCreator->id,
+        ]);
+
+        $response = $this->actingAs($user)->get(route('tasks.index', [
+            'filter' => [
+                'created_by_id' => $creator->id,
+            ],
+        ]));
+
+        $response->assertOk();
+        $response->assertSee($visibleTask->name);
+        $response->assertDontSee($hiddenTask->name);
+    }
+
+    public function test_authenticated_user_can_filter_tasks_by_assignee(): void
+    {
+        $user = User::factory()->create();
+        $assignee = User::factory()->create();
+        $anotherAssignee = User::factory()->create();
+
+        $visibleTask = Task::factory()->create([
+            'name' => 'Visible assignee task',
+            'assigned_to_id' => $assignee->id,
+        ]);
+
+        $hiddenTask = Task::factory()->create([
+            'name' => 'Hidden assignee task',
+            'assigned_to_id' => $anotherAssignee->id,
+        ]);
+
+        $response = $this->actingAs($user)->get(route('tasks.index', [
+            'filter' => [
+                'assigned_to_id' => $assignee->id,
+            ],
+        ]));
+
+        $response->assertOk();
+        $response->assertSee($visibleTask->name);
+        $response->assertDontSee($hiddenTask->name);
+    }
+
+    public function test_authenticated_user_can_filter_tasks_by_label(): void
+    {
+        $user = User::factory()->create();
+        $label = Label::factory()->create();
+        $anotherLabel = Label::factory()->create();
+
+        $visibleTask = Task::factory()->create([
+            'name' => 'Visible label task',
+        ]);
+
+        $hiddenTask = Task::factory()->create([
+            'name' => 'Hidden label task',
+        ]);
+
+        $visibleTask->labels()->attach($label);
+        $hiddenTask->labels()->attach($anotherLabel);
+
+        $response = $this->actingAs($user)->get(route('tasks.index', [
+            'filter' => [
+                'label_id' => $label->id,
+            ],
+        ]));
+
+        $response->assertOk();
+        $response->assertSee($visibleTask->name);
+        $response->assertDontSee($hiddenTask->name);
+    }
 }
