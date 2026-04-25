@@ -1,51 +1,56 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Менеджер задач') }}</title>
 
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="bg-light">
-        <div class="container py-5">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="card shadow-sm border-0">
-                        <div class="card-body p-5">
-                            <div class="d-flex align-items-center gap-3 mb-4">
-                                <i class="bi bi-kanban fs-1 text-primary"></i>
-                                <div>
-                                    <h1 class="h3 mb-1">{{ config('app.name', 'Task Manager') }}</h1>
-                                    <p class="text-muted mb-0">{{ __('welcome.subtitle') }}</p>
-                                </div>
-                            </div>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+<body class="bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container">
+        <a class="navbar-brand" href="{{ url('/') }}">
+            Менеджер задач
+        </a>
 
-                            <div class="d-flex flex-wrap gap-2">
-                                @auth
-                                    <a href="{{ route('dashboard') }}" class="btn btn-primary">
-                                        <i class="bi bi-speedometer2 me-1"></i>
-                                        {{ __('welcome.dashboard') }}
-                                    </a>
-                                @else
-                                    <a href="{{ route('login') }}" class="btn btn-primary">
-                                        <i class="bi bi-box-arrow-in-right me-1"></i>
-                                        {{ __('welcome.log_in') }}
-                                    </a>
-
-                                    @if (Route::has('register'))
-                                        <a href="{{ route('register') }}" class="btn btn-outline-primary">
-                                            <i class="bi bi-person-plus me-1"></i>
-                                            {{ __('welcome.register') }}
-                                        </a>
-                                    @endif
-                                @endauth
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="navbar-nav me-auto">
+            <a class="nav-link" href="{{ route('tasks.index') }}">Задачи</a>
+            <a class="nav-link" href="{{ route('task_statuses.index') }}">Статусы</a>
+            <a class="nav-link" href="{{ route('labels.index') }}">Метки</a>
         </div>
-    </body>
+
+        <div class="navbar-nav">
+            @auth
+                <a class="nav-link" href="{{ route('dashboard') }}">
+                    {{ Auth::user()->name }}
+                </a>
+            @else
+                <a class="nav-link" href="{{ route('login') }}">
+                    Hexlet
+                </a>
+            @endauth
+        </div>
+    </div>
+</nav>
+
+<main class="container py-4">
+    <div class="bg-secondary bg-opacity-10 rounded p-5">
+        <h1 class="display-1">
+            Привет от Хекслета!
+        </h1>
+
+        <p class="fs-3">
+            Практические курсы по программированию
+        </p>
+
+        <hr class="my-4">
+
+        <a class="btn btn-primary btn-lg" href="https://hexlet.io" target="_blank">
+            Узнать больше
+        </a>
+    </div>
+</main>
+</body>
 </html>
