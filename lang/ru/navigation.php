@@ -4,5 +4,5 @@ return [
     'dashboard' => 'Панель управления',
     'profile' => 'Профиль',
     'task_statuses' => 'Статусы задач',
-    'log_out' => 'Выйти',
+    'log_out' => 'Выход',
 ];

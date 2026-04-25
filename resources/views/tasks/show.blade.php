@@ -7,20 +7,6 @@
 
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            @auth
-                <form method="POST" action="{{ route('logout') }}" class="mb-3">
-                    @csrf
-
-                    <a
-                        href="{{ route('logout') }}"
-                        class="btn btn-outline-secondary"
-                        onclick="event.preventDefault(); this.closest('form').submit();"
-                    >
-                        {{ __('navigation.log_out') }}
-                    </a>
-                </form>
-            @endauth
-
             <div class="bg-white shadow-sm sm:rounded-lg p-4">
                 <table class="table">
                     <tbody>
