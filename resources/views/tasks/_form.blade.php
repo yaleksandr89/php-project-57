@@ -52,6 +52,7 @@
         name="status_id"
         class="form-control @error('status_id') is-invalid @enderror"
     >
+        <option value=""></option>
         @foreach ($taskStatuses as $taskStatus)
             <option
                 value="{{ $taskStatus->id }}"
