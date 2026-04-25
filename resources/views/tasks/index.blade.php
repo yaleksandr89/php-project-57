@@ -101,7 +101,7 @@
                 @auth
                     <div class="mb-3">
                         <a href="{{ route('tasks.create') }}" class="btn btn-primary">
-                            {{ __('tasks.buttons.create') }}
+                            {{ __('tasks.create') }}
                         </a>
                     </div>
                 @endauth
