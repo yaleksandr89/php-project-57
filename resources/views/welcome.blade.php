@@ -28,8 +28,14 @@
                 </a>
             @else
                 <a class="nav-link" href="{{ route('login') }}">
-                    Hexlet
+                    {{ __('auth.log_in') }}
                 </a>
+
+                @if (Route::has('register'))
+                    <a class="nav-link" href="{{ route('register') }}">
+                        {{ __('auth.register') }}
+                    </a>
+                @endif
             @endauth
         </div>
     </div>
