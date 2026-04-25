@@ -32,7 +32,7 @@
                             <td>{{ $label->id }}</td>
                             <td>{{ $label->name }}</td>
                             <td>{{ $label->description }}</td>
-                            <td>{{ $label->created_at->format('Y-m-d H:i:s') }}</td>
+                            <td>{{ $label->created_at->format('d.m.Y') }}</td>
                             <td>
                                 @auth
                                     <div class="d-flex gap-2">
@@ -40,40 +40,19 @@
                                             {{ __('labels.buttons.edit') }}
                                         </a>
 
-                                        <button
-                                            type="button"
-                                            class="btn btn-danger btn-sm"
-                                            x-data=""
-                                            x-on:click.prevent="$dispatch('open-modal', 'confirm-label-deletion-{{ $label->id }}')"
-                                        >
-                                            {{ __('labels.buttons.delete') }}
-                                        </button>
-                                    </div>
-
-                                    <x-modal name="confirm-label-deletion-{{ $label->id }}" focusable>
-                                        <form method="POST" action="{{ route('labels.destroy', $label) }}" class="p-6">
+                                        <form method="POST" action="{{ route('labels.destroy', $label) }}">
                                             @csrf
                                             @method('DELETE')
 
-                                            <h2 class="text-lg font-medium text-gray-900">
-                                                {{ __('labels.modal.delete_title') }}
-                                            </h2>
-
-                                            <p class="mt-1 text-sm text-gray-600">
-                                                {{ __('labels.modal.delete_description') }}
-                                            </p>
-
-                                            <div class="mt-6 flex justify-end">
-                                                <x-secondary-button x-on:click="$dispatch('close')">
-                                                    {{ __('labels.modal.cancel') }}
-                                                </x-secondary-button>
-
-                                                <x-danger-button class="ms-3">
-                                                    {{ __('labels.modal.confirm') }}
-                                                </x-danger-button>
-                                            </div>
+                                            <a
+                                                href="{{ route('labels.destroy', $label) }}"
+                                                class="btn btn-danger btn-sm"
+                                                onclick="event.preventDefault(); if (confirm('{{ __('labels.modal.delete_title') }}')) { this.closest('form').submit(); }"
+                                            >
+                                                {{ __('labels.buttons.delete') }}
+                                            </a>
                                         </form>
-                                    </x-modal>
+                                    </div>
                                 @endauth
                             </td>
                         </tr>

@@ -152,44 +152,20 @@
                                         </a>
 
                                         @if ($task->created_by_id === auth()->id())
-                                            <button
-                                                type="button"
-                                                class="btn btn-danger btn-sm"
-                                                x-data=""
-                                                x-on:click.prevent="$dispatch('open-modal', 'confirm-task-deletion-{{ $task->id }}')"
-                                            >
-                                                {{ __('tasks.buttons.delete') }}
-                                            </button>
-                                        @endif
-                                    </div>
-
-                                    @if ($task->created_by_id === auth()->id())
-                                        <x-modal name="confirm-task-deletion-{{ $task->id }}" focusable>
-                                            <form method="POST" action="{{ route('tasks.destroy', $task) }}"
-                                                  class="p-6">
+                                            <form method="POST" action="{{ route('tasks.destroy', $task) }}">
                                                 @csrf
                                                 @method('DELETE')
 
-                                                <h2 class="text-lg font-medium text-gray-900">
-                                                    {{ __('tasks.modal.delete_title') }}
-                                                </h2>
-
-                                                <p class="mt-1 text-sm text-gray-600">
-                                                    {{ __('tasks.modal.delete_description') }}
-                                                </p>
-
-                                                <div class="mt-6 flex justify-end">
-                                                    <x-secondary-button x-on:click="$dispatch('close')">
-                                                        {{ __('tasks.modal.cancel') }}
-                                                    </x-secondary-button>
-
-                                                    <x-danger-button class="ms-3">
-                                                        {{ __('tasks.modal.confirm') }}
-                                                    </x-danger-button>
-                                                </div>
+                                                <a
+                                                    href="{{ route('tasks.destroy', $task) }}"
+                                                    class="btn btn-danger btn-sm"
+                                                    onclick="event.preventDefault(); if (confirm('{{ __('tasks.modal.delete_title') }}')) { this.closest('form').submit(); }"
+                                                >
+                                                    {{ __('tasks.buttons.delete') }}
+                                                </a>
                                             </form>
-                                        </x-modal>
-                                    @endif
+                                        @endif
+                                    </div>
                                 @endauth
                             </td>
                         </tr>
