@@ -171,9 +171,7 @@ class TaskStatusControllerTest extends TestCase
 
     public function testAuthenticatedUserCanDeleteTaskStatus(): void
     {
-        /** @var User $user */
         $user = User::factory()->create();
-        /** @var TaskStatus $taskStatus */
         $taskStatus = TaskStatus::factory()->create();
 
         $response = $this->actingAs($user)->delete(route('task_statuses.destroy', $taskStatus));
@@ -186,10 +184,7 @@ class TaskStatusControllerTest extends TestCase
 
     public function testAuthenticatedUserCannotDeleteTaskStatusUsedInTask(): void
     {
-        /** @var User $user */
         $user = User::factory()->create();
-
-        /** @var TaskStatus $taskStatus */
         $taskStatus = TaskStatus::factory()->create();
 
         Task::factory()->create([

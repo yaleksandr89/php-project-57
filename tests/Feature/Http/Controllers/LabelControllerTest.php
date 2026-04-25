@@ -43,7 +43,6 @@ class LabelControllerTest extends TestCase
 
     public function testGuestCannotAccessLabelsEditPage(): void
     {
-        /** @var Label $label */
         $label = Label::factory()->create();
 
         $response = $this->get(route('labels.edit', $label));
@@ -53,7 +52,6 @@ class LabelControllerTest extends TestCase
 
     public function testGuestCannotUpdateLabel(): void
     {
-        /** @var Label $label */
         $label = Label::factory()->create([
             'name' => 'bug',
         ]);
@@ -72,7 +70,6 @@ class LabelControllerTest extends TestCase
 
     public function testGuestCannotDeleteLabel(): void
     {
-        /** @var Label $label */
         $label = Label::factory()->create();
 
         $response = $this->delete(route('labels.destroy', $label));
@@ -85,9 +82,7 @@ class LabelControllerTest extends TestCase
 
     public function testAuthenticatedUserCanViewLabelsIndex(): void
     {
-        /** @var User $user */
         $user = User::factory()->create();
-        /** @var Label $label */
         $labels = Label::factory()
             ->count(2)
             ->create();
@@ -101,7 +96,6 @@ class LabelControllerTest extends TestCase
 
     public function testAuthenticatedUserCanStoreLabel(): void
     {
-        /** @var User $user */
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)->post(route('labels.store'), [
@@ -119,7 +113,6 @@ class LabelControllerTest extends TestCase
 
     public function testStoreLabelValidationFailsWhenNameIsEmpty(): void
     {
-        /** @var User $user */
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)
@@ -135,9 +128,7 @@ class LabelControllerTest extends TestCase
 
     public function testAuthenticatedUserCanViewLabelEditPage(): void
     {
-        /** @var User $user */
         $user = User::factory()->create();
-        /** @var Label $label */
         $label = Label::factory()->create([
             'name' => 'bug',
             'description' => 'Bug description',
@@ -152,9 +143,7 @@ class LabelControllerTest extends TestCase
 
     public function testAuthenticatedUserCanUpdateLabel(): void
     {
-        /** @var User $user */
         $user = User::factory()->create();
-        /** @var Label $label */
         $label = Label::factory()->create([
             'name' => 'bug',
             'description' => 'Bug description',
@@ -176,9 +165,7 @@ class LabelControllerTest extends TestCase
 
     public function testUpdateLabelValidationFailsWhenNameIsEmpty(): void
     {
-        /** @var User $user */
         $user = User::factory()->create();
-        /** @var Label $label */
         $label = Label::factory()->create([
             'name' => 'bug',
             'description' => 'Bug description',
@@ -202,9 +189,7 @@ class LabelControllerTest extends TestCase
 
     public function testAuthenticatedUserCanDeleteLabel(): void
     {
-        /** @var User $user */
         $user = User::factory()->create();
-        /** @var Label $label */
         $label = Label::factory()->create();
 
         $response = $this->actingAs($user)->delete(route('labels.destroy', $label));
@@ -218,9 +203,7 @@ class LabelControllerTest extends TestCase
 
     public function testAuthenticatedUserCannotDeleteLabelUsedInTask(): void
     {
-        /** @var User $user */
         $user = User::factory()->create();
-        /** @var Label $label */
         $label = Label::factory()->create();
 
         $task = Task::factory()->create([
