@@ -157,8 +157,9 @@ return [
     'uuid' => 'Поле :attribute должно содержать корректный UUID.',
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'password' => [
+            'min' => 'Пароль должен иметь длину не менее 8 символов',
+            'confirmed' => 'Пароль и подтверждение не совпадают',
         ],
     ],
 

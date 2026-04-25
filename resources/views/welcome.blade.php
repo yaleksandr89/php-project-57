@@ -23,9 +23,17 @@
 
         <div class="navbar-nav">
             @auth
-                <a class="nav-link" href="{{ route('dashboard') }}">
-                    {{ Auth::user()->name }}
-                </a>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+
+                    <a
+                        class="nav-link"
+                        href="{{ route('logout') }}"
+                        onclick="event.preventDefault(); this.closest('form').submit();"
+                    >
+                        Выход
+                    </a>
+                </form>
             @else
                 <a class="nav-link" href="{{ route('login') }}">
                     {{ __('auth.log_in') }}
