@@ -21,12 +21,5 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // На Render приложение работает за прокси, и Laravel считает,
-        // что запросы приходят по http. Из-за этого @vite генерирует
-        // ссылки на ассеты с http, и браузер их блокирует.
-        // Принудительно включаем https, иначе фронтенд не работает.
-        if (app()->environment('production')) {
-            URL::forceScheme('https');
-        }
     }
 }

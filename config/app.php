@@ -53,6 +53,7 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
+    'asset_url' => env('ASSET_URL'),
 
     /*
     |--------------------------------------------------------------------------
@@ -78,14 +79,17 @@ return [
     |
     */
 
-    #'locale' => env('APP_LOCALE', 'en'),
+    // Принудительно задаём локаль, так как в CI (Hexlet) настройки из .env не применяются.
+    // Пример ошибки: "InvalidArgumentException: Unable to locate button [Войти]"
+    // поэтому язык приходится Хардкодить/
     'locale' => 'ru',
-
-    //'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
     'fallback_locale' => 'en',
-
-    #'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
     'faker_locale' => 'ru_RU',
+
+    //'locale' => env('APP_LOCALE', 'en'),
+    //'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
+    // 'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
+
 
     /*
     |--------------------------------------------------------------------------
