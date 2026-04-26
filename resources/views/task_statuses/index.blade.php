@@ -16,21 +16,26 @@
                     </div>
                 @endauth
 
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>{{ __('task_statuses.index.id') }}</th>
-                            <th>{{ __('task_statuses.index.name') }}</th>
-                            <th>{{ __('task_statuses.index.actions') }}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>{{ __('task_statuses.index.id') }}</th>
+                                <th>{{ __('task_statuses.index.name') }}</th>
+                                <th>{{ __('task_statuses.index.created_at') }}</th>
+                                @auth
+                                    <th>{{ __('task_statuses.index.actions') }}</th>
+                                @endauth
+                            </tr>
+                        </thead>
+                        <tbody>
                         @foreach ($taskStatuses as $status)
                             <tr>
                                 <td>{{ $status->id }}</td>
                                 <td>{{ $status->name }}</td>
-                                <td>
-                                    @auth
+                                <td>{{ $status->created_at->format('d.m.Y') }}</td>
+
+                                @auth
+                                    <td>
                                         <div class="d-flex gap-2">
                                             <a href="{{ route('task_statuses.edit', $status) }}" class="btn btn-warning btn-sm">
                                                 {{ __('task_statuses.index.edit') }}
@@ -49,12 +54,12 @@
                                                 </a>
                                             </form>
                                         </div>
-                                    @endauth
-                                </td>
+                                    </td>
+                                @endauth
                             </tr>
                         @endforeach
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
 
                 {{ $taskStatuses->links() }}
             </div>

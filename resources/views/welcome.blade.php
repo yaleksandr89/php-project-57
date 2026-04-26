@@ -23,6 +23,9 @@
 
         <div class="navbar-nav">
             @auth
+                <a class="nav-link" href="{{ route('profile.edit') }}">
+                    {{ Auth::user()->name }}
+                </a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
 

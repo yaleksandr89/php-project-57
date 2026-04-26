@@ -26,9 +26,9 @@
             <div class="flex items-center ms-6">
                 @auth
                     <div class="flex items-center gap-4">
-                        <span class="text-sm text-gray-500">
+                        <a href="{{ route('profile.edit') }}" class="text-sm text-gray-500 hover:text-gray-700">
                             {{ Auth::user()->name }}
-                        </span>
+                        </a>
 
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -86,7 +86,11 @@
         <div class="pt-4 pb-1 border-t border-gray-200">
             @auth
                 <div class="px-4">
-                    <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
+                    <div class="font-medium text-base text-gray-800">
+                        <x-responsive-nav-link :href="route('profile.edit')">
+                            {{ Auth::user()->name }}
+                        </x-responsive-nav-link>
+                    </div>
                     <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
                 </div>
 

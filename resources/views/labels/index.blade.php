@@ -16,14 +16,16 @@
                     </div>
                 @endauth
 
-                <table class="table">
+                <table class="table table-striped">
                     <thead>
                     <tr>
                         <th>{{ __('labels.fields.id') }}</th>
                         <th>{{ __('labels.fields.name') }}</th>
                         <th>{{ __('labels.fields.description') }}</th>
                         <th>{{ __('labels.fields.created_at') }}</th>
-                        <th>{{ __('labels.fields.actions') }}</th>
+                        @auth
+                            <th>{{ __('labels.fields.actions') }}</th>
+                        @endauth
                     </tr>
                     </thead>
                     <tbody>
@@ -33,8 +35,9 @@
                             <td>{{ $label->name }}</td>
                             <td>{{ $label->description }}</td>
                             <td>{{ $label->created_at->format('d.m.Y') }}</td>
-                            <td>
-                                @auth
+
+                            @auth
+                                <td>
                                     <div class="d-flex gap-2">
                                         <a href="{{ route('labels.edit', $label) }}" class="btn btn-warning btn-sm">
                                             {{ __('labels.buttons.edit') }}
@@ -53,8 +56,8 @@
                                             </a>
                                         </form>
                                     </div>
-                                @endauth
-                            </td>
+                                </td>
+                            @endauth
                         </tr>
                     @endforeach
                     </tbody>

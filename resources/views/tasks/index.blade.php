@@ -106,17 +106,19 @@
                     </div>
                 @endauth
 
-                <table class="table">
+                <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th>{{ __('tasks.fields.id') }}</th>
+                        <th>ID</th>
                         <th>{{ __('tasks.fields.name') }}</th>
                         <th>{{ __('tasks.fields.status') }}</th>
                         <th>{{ __('tasks.fields.labels') }}</th>
                         <th>{{ __('tasks.fields.creator') }}</th>
                         <th>{{ __('tasks.fields.assignee') }}</th>
                         <th>{{ __('tasks.fields.created_at') }}</th>
-                        <th>{{ __('tasks.fields.actions') }}</th>
+                        @auth
+                            <th>{{ __('tasks.fields.actions') }}</th>
+                        @endauth
                     </tr>
                     </thead>
                     <tbody>
@@ -124,24 +126,22 @@
                         <tr>
                             <td>{{ $task->id }}</td>
                             <td>
-                                <a href="{{ route('tasks.show', $task) }}"
-                                   class="text-primary text-decoration-underline link-offset-2 link-underline link-underline-opacity-25">
+                                <a href="{{ route('tasks.show', $task) }}">
                                     {{ $task->name }}
                                 </a>
                             </td>
                             <td>{{ $task->status->name }}</td>
                             <td>
-                                @forelse ($task->labels as $label)
+                                @foreach ($task->labels as $label)
                                     <span class="badge bg-secondary">{{ $label->name }}</span>
-                                @empty
-                                    {{ __('tasks.empty_labels') }}
-                                @endforelse
+                                @endforeach
                             </td>
                             <td>{{ $task->creator->name }}</td>
                             <td>{{ $task->assignee?->name ?? __('tasks.empty_assignee') }}</td>
                             <td>{{ $task->created_at->format('d.m.Y') }}</td>
-                            <td>
-                                @auth
+
+                            @auth
+                                <td>
                                     <div class="d-flex gap-2">
                                         <a href="{{ route('tasks.show', $task) }}" class="btn btn-info btn-sm">
                                             {{ __('tasks.buttons.show') }}
@@ -166,8 +166,8 @@
                                             </form>
                                         @endif
                                     </div>
-                                @endauth
-                            </td>
+                                </td>
+                            @endauth
                         </tr>
                     @endforeach
                     </tbody>
