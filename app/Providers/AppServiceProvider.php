@@ -21,10 +21,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Принудительно задаём локаль, так как в CI (Hexlet) настройки из .env и config/app.php не применяются,
-        // поэтому язык приходится переопределять в рантайме
-        App::setLocale('ru');
-
         // На Render приложение работает за прокси, и Laravel считает,
         // что запросы приходят по http. Из-за этого @vite генерирует
         // ссылки на ассеты с http, и браузер их блокирует.
