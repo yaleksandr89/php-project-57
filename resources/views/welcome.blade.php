@@ -26,7 +26,8 @@
                 <a class="nav-link" href="{{ route('profile.edit') }}">
                     {{ Auth::user()->name }}
                 </a>
-                <form method="POST" action="{{ route('logout') }}">
+
+                {!! html()->form('POST', route('logout'))->open() !!}
                     @csrf
 
                     <a
@@ -36,7 +37,7 @@
                     >
                         Выход
                     </a>
-                </form>
+                {!! html()->form()->close() !!}
             @else
                 <a class="nav-link" href="{{ route('login') }}">
                     {{ __('auth.log_in') }}

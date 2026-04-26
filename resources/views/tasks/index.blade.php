@@ -8,7 +8,7 @@
     <div class="py-6 pb-0">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-sm sm:rounded-lg p-4">
-                <form method="GET" action="{{ route('tasks.index') }}">
+                {!! html()->form('GET', route('tasks.index'))->open() !!}
                     <h3 class="h5 mb-3">{{ __('tasks.filters.title') }}</h3>
 
                     <div class="row g-3 align-items-end">
@@ -16,6 +16,7 @@
                             <label for="filter_status_id" class="form-label">
                                 {{ __('tasks.filters.status') }}
                             </label>
+
                             <select id="filter_status_id" name="filter[status_id]" class="form-select">
                                 <option value="">{{ __('tasks.filters.empty') }}</option>
                                 @foreach ($taskStatuses as $taskStatus)
@@ -33,6 +34,7 @@
                             <label for="filter_created_by_id" class="form-label">
                                 {{ __('tasks.filters.creator') }}
                             </label>
+
                             <select id="filter_created_by_id" name="filter[created_by_id]" class="form-select">
                                 <option value="">{{ __('tasks.filters.empty') }}</option>
                                 @foreach ($users as $user)
@@ -50,6 +52,7 @@
                             <label for="filter_assigned_to_id" class="form-label">
                                 {{ __('tasks.filters.assignee') }}
                             </label>
+
                             <select id="filter_assigned_to_id" name="filter[assigned_to_id]" class="form-select">
                                 <option value="">{{ __('tasks.filters.empty') }}</option>
                                 @foreach ($users as $user)
@@ -67,6 +70,7 @@
                             <label for="filter_label_id" class="form-label">
                                 {{ __('tasks.filters.label') }}
                             </label>
+
                             <select id="filter_label_id" name="filter[label_id]" class="form-select">
                                 <option value="">{{ __('tasks.filters.empty') }}</option>
                                 @foreach ($labels as $label)
@@ -81,16 +85,14 @@
                         </div>
 
                         <div class="col-md-12 d-flex gap-2">
-                            <button type="submit" class="btn btn-primary">
-                                {{ __('tasks.buttons.filter') }}
-                            </button>
+                            {!! html()->submit(__('tasks.buttons.filter'))->class('btn btn-primary') !!}
 
                             <a href="{{ route('tasks.index') }}" class="btn btn-outline-secondary">
                                 {{ __('tasks.buttons.reset') }}
                             </a>
                         </div>
                     </div>
-                </form>
+                {!! html()->form()->close() !!}
             </div>
         </div>
     </div>
@@ -152,7 +154,7 @@
                                         </a>
 
                                         @if ($task->created_by_id === auth()->id())
-                                            <form method="POST" action="{{ route('tasks.destroy', $task) }}">
+                                            {!! html()->form('POST', route('tasks.destroy', $task))->open() !!}
                                                 @csrf
                                                 @method('DELETE')
 
@@ -163,7 +165,7 @@
                                                 >
                                                     {{ __('tasks.buttons.delete') }}
                                                 </a>
-                                            </form>
+                                            {!! html()->form()->close() !!}
                                         @endif
                                     </div>
                                 </td>

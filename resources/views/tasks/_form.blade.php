@@ -5,20 +5,20 @@
     ))
         ->map(fn ($labelId) => (int) $labelId)
         ->all();
+
+    $statusOptions = $taskStatuses->pluck('name', 'id')->prepend('', '')->all();
+    $userOptions = $users->pluck('name', 'id')->prepend(__('tasks.empty_assignee'), '')->all();
+    $labelOptions = $labels->pluck('name', 'id')->all();
 @endphp
 
 <div class="mb-3">
-    <label for="name" class="form-label">
-        {{ __('tasks.fields.name') }}
-    </label>
+    {!! html()->label(__('tasks.fields.name'), 'name')->class('form-label') !!}
 
-    <input
-        id="name"
-        name="name"
-        type="text"
-        value="{{ old('name', $task->name ?? '') }}"
-        class="form-control @error('name') is-invalid @enderror"
-    >
+    {!! html()
+        ->text('name')
+        ->value(old('name', $task->name ?? ''))
+        ->id('name')
+        ->class('form-control' . ($errors->has('name') ? ' is-invalid' : '')) !!}
 
     @error('name')
     <div class="invalid-feedback">{{ $message }}</div>
@@ -26,16 +26,14 @@
 </div>
 
 <div class="mb-3">
-    <label for="description" class="form-label">
-        {{ __('tasks.fields.description') }}
-    </label>
+    {!! html()->label(__('tasks.fields.description'), 'description')->class('form-label') !!}
 
-    <textarea
-        id="description"
-        name="description"
-        class="form-control @error('description') is-invalid @enderror"
-        rows="6"
-    >{{ old('description', $task->description ?? '') }}</textarea>
+    {!! html()
+        ->textarea('description')
+        ->value(old('description', $task->description ?? ''))
+        ->id('description')
+        ->class('form-control' . ($errors->has('description') ? ' is-invalid' : ''))
+        ->rows(6) !!}
 
     @error('description')
     <div class="invalid-feedback">{{ $message }}</div>
@@ -43,25 +41,12 @@
 </div>
 
 <div class="mb-3">
-    <label for="status_id" class="form-label">
-        {{ __('tasks.fields.status') }}
-    </label>
+    {!! html()->label(__('tasks.fields.status'), 'status_id')->class('form-label') !!}
 
-    <select
-        id="status_id"
-        name="status_id"
-        class="form-control @error('status_id') is-invalid @enderror"
-    >
-        <option value=""></option>
-        @foreach ($taskStatuses as $taskStatus)
-            <option
-                value="{{ $taskStatus->id }}"
-                @selected((int) old('status_id', $task->status_id ?? 0) === $taskStatus->id)
-            >
-                {{ $taskStatus->name }}
-            </option>
-        @endforeach
-    </select>
+    {!! html()
+        ->select('status_id', $statusOptions, old('status_id', $task->status_id ?? ''))
+        ->id('status_id')
+        ->class('form-control' . ($errors->has('status_id') ? ' is-invalid' : '')) !!}
 
     @error('status_id')
     <div class="invalid-feedback">{{ $message }}</div>
@@ -69,26 +54,12 @@
 </div>
 
 <div class="mb-3">
-    <label for="assigned_to_id" class="form-label">
-        {{ __('tasks.fields.assignee') }}
-    </label>
+    {!! html()->label(__('tasks.fields.assignee'), 'assigned_to_id')->class('form-label') !!}
 
-    <select
-        id="assigned_to_id"
-        name="assigned_to_id"
-        class="form-control @error('assigned_to_id') is-invalid @enderror"
-    >
-        <option value="">{{ __('tasks.empty_assignee') }}</option>
-
-        @foreach ($users as $user)
-            <option
-                value="{{ $user->id }}"
-                @selected((int) old('assigned_to_id', $task->assigned_to_id ?? 0) === $user->id)
-            >
-                {{ $user->name }}
-            </option>
-        @endforeach
-    </select>
+    {!! html()
+        ->select('assigned_to_id', $userOptions, old('assigned_to_id', $task->assigned_to_id ?? ''))
+        ->id('assigned_to_id')
+        ->class('form-control' . ($errors->has('assigned_to_id') ? ' is-invalid' : '')) !!}
 
     @error('assigned_to_id')
     <div class="invalid-feedback">{{ $message }}</div>
@@ -96,26 +67,14 @@
 </div>
 
 <div class="mb-3">
-    <label for="labels" class="form-label">
-        {{ __('tasks.fields.labels') }}
-    </label>
+    {!! html()->label(__('tasks.fields.labels'), 'labels')->class('form-label') !!}
 
-    <select
-        id="labels"
-        name="labels[]"
-        class="form-control @error('labels') is-invalid @enderror @error('labels.*') is-invalid @enderror"
-        multiple
-        data-placeholder="{{ __('tasks.fields.labels') }}"
-    >
-        @foreach ($labels as $label)
-            <option
-                value="{{ $label->id }}"
-                @selected(in_array($label->id, $selectedLabelIds, true))
-            >
-                {{ $label->name }}
-            </option>
-        @endforeach
-    </select>
+    {!! html()
+        ->select('labels[]', $labelOptions, $selectedLabelIds)
+        ->id('labels')
+        ->class('form-control' . ($errors->has('labels') || $errors->has('labels.*') ? ' is-invalid' : ''))
+        ->multiple()
+        ->attribute('data-placeholder', __('tasks.fields.labels')) !!}
 
     @error('labels')
     <div class="invalid-feedback">{{ $message }}</div>
@@ -126,6 +85,4 @@
     @enderror
 </div>
 
-<button type="submit" class="btn btn-primary">
-    {{ $buttonText }}
-</button>
+{!! html()->submit($buttonText)->class('btn btn-primary') !!}

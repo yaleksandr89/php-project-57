@@ -8,14 +8,14 @@
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-sm sm:rounded-lg p-4">
-                <form method="POST" action="{{ route('tasks.update', $task) }}">
+                {!! html()->form('POST', route('tasks.update', $task))->open() !!}
                     @csrf
                     @method('PATCH')
 
                     @include('tasks._form', [
                         'buttonText' => __('tasks.buttons.update'),
                     ])
-                </form>
+                {!! html()->form()->close() !!}
             </div>
         </div>
     </div>

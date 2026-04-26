@@ -16,50 +16,50 @@
                     </div>
                 @endauth
 
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>{{ __('task_statuses.index.id') }}</th>
-                                <th>{{ __('task_statuses.index.name') }}</th>
-                                <th>{{ __('task_statuses.index.created_at') }}</th>
-                                @auth
-                                    <th>{{ __('task_statuses.index.actions') }}</th>
-                                @endauth
-                            </tr>
-                        </thead>
-                        <tbody>
-                        @foreach ($taskStatuses as $status)
-                            <tr>
-                                <td>{{ $status->id }}</td>
-                                <td>{{ $status->name }}</td>
-                                <td>{{ $status->created_at->format('d.m.Y') }}</td>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>{{ __('task_statuses.index.id') }}</th>
+                        <th>{{ __('task_statuses.index.name') }}</th>
+                        <th>{{ __('task_statuses.index.created_at') }}</th>
+                        @auth
+                            <th>{{ __('task_statuses.index.actions') }}</th>
+                        @endauth
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach ($taskStatuses as $status)
+                        <tr>
+                            <td>{{ $status->id }}</td>
+                            <td>{{ $status->name }}</td>
+                            <td>{{ $status->created_at->format('d.m.Y') }}</td>
 
-                                @auth
-                                    <td>
-                                        <div class="d-flex gap-2">
-                                            <a href="{{ route('task_statuses.edit', $status) }}" class="btn btn-warning btn-sm">
-                                                {{ __('task_statuses.index.edit') }}
+                            @auth
+                                <td>
+                                    <div class="d-flex gap-2">
+                                        <a href="{{ route('task_statuses.edit', $status) }}" class="btn btn-warning btn-sm">
+                                            {{ __('task_statuses.index.edit') }}
+                                        </a>
+
+                                        {!! html()->form('POST', route('task_statuses.destroy', $status))->open() !!}
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <a
+                                                href="{{ route('task_statuses.destroy', $status) }}"
+                                                class="btn btn-danger btn-sm"
+                                                onclick="event.preventDefault(); if (confirm('{{ __('task_statuses.modal.delete_title') }}')) { this.closest('form').submit(); }"
+                                            >
+                                                {{ __('task_statuses.index.delete') }}
                                             </a>
-
-                                            <form method="POST" action="{{ route('task_statuses.destroy', $status) }}">
-                                                @csrf
-                                                @method('DELETE')
-
-                                                <a
-                                                    href="{{ route('task_statuses.destroy', $status) }}"
-                                                    class="btn btn-danger btn-sm"
-                                                    onclick="event.preventDefault(); if (confirm('{{ __('task_statuses.modal.delete_title') }}')) { this.closest('form').submit(); }"
-                                                >
-                                                    {{ __('task_statuses.index.delete') }}
-                                                </a>
-                                            </form>
-                                        </div>
-                                    </td>
-                                @endauth
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                                        {!! html()->form()->close() !!}
+                                    </div>
+                                </td>
+                            @endauth
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
 
                 {{ $taskStatuses->links() }}
             </div>

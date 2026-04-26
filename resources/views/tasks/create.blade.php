@@ -8,13 +8,13 @@
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-sm sm:rounded-lg p-4">
-                <form method="POST" action="{{ route('tasks.store') }}">
+                {!! html()->form('POST', route('tasks.store'))->open() !!}
                     @csrf
 
                     @include('tasks._form', [
                         'buttonText' => __('tasks.buttons.create'),
                     ])
-                </form>
+                {!! html()->form()->close() !!}
             </div>
         </div>
     </div>

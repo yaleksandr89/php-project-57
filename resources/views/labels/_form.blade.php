@@ -1,15 +1,11 @@
 <div class="mb-3">
-    <label for="name" class="form-label">
-        {{ __('labels.fields.name') }}
-    </label>
+    {!! html()->label(__('labels.fields.name'), 'name')->class('form-label') !!}
 
-    <input
-        id="name"
-        name="name"
-        type="text"
-        value="{{ old('name', $label->name ?? '') }}"
-        class="form-control @error('name') is-invalid @enderror"
-    >
+    {!! html()
+        ->text('name')
+        ->value(old('name', $label->name ?? ''))
+        ->id('name')
+        ->class('form-control' . ($errors->has('name') ? ' is-invalid' : '')) !!}
 
     @error('name')
     <div class="invalid-feedback">{{ $message }}</div>
@@ -17,22 +13,18 @@
 </div>
 
 <div class="mb-3">
-    <label for="description" class="form-label">
-        {{ __('labels.fields.description') }}
-    </label>
+    {!! html()->label(__('labels.fields.description'), 'description')->class('form-label') !!}
 
-    <textarea
-        id="description"
-        name="description"
-        class="form-control @error('description') is-invalid @enderror"
-        rows="6"
-    >{{ old('description', $label->description ?? '') }}</textarea>
+    {!! html()
+        ->textarea('description')
+        ->value(old('description', $label->description ?? ''))
+        ->id('description')
+        ->class('form-control' . ($errors->has('description') ? ' is-invalid' : ''))
+        ->rows(6) !!}
 
     @error('description')
     <div class="invalid-feedback">{{ $message }}</div>
     @enderror
 </div>
 
-<button type="submit" class="btn btn-primary">
-    {{ $buttonText }}
-</button>
+{!! html()->submit($buttonText)->class('btn btn-primary') !!}

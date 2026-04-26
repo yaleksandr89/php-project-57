@@ -8,14 +8,14 @@
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-sm sm:rounded-lg p-4">
-                <form method="POST" action="{{ route('labels.update', $label) }}">
+                {!! html()->form('POST', route('labels.update', $label))->open() !!}
                     @csrf
                     @method('PATCH')
 
                     @include('labels._form', [
                         'buttonText' => __('labels.buttons.update'),
                     ])
-                </form>
+                {!! html()->form()->close() !!}
             </div>
         </div>
     </div>

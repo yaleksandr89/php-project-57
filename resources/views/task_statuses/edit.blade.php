@@ -8,7 +8,7 @@
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-sm sm:rounded-lg p-4">
-                <form method="POST" action="{{ route('task_statuses.update', $taskStatus) }}">
+                {!! html()->form('POST', route('task_statuses.update', $taskStatus))->open() !!}
                     @csrf
                     @method('PATCH')
 
@@ -16,7 +16,7 @@
                         'nameLabel' => __('task_statuses.edit.name'),
                         'buttonText' => __('task_statuses.edit.submit'),
                     ])
-                </form>
+                {!! html()->form()->close() !!}
             </div>
         </div>
     </div>
