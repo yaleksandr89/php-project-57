@@ -1,16 +1,3 @@
-@php
-    $selectedLabelIds = collect(old(
-        'labels',
-        isset($task) ? $task->labels->pluck('id')->all() : []
-    ))
-        ->map(fn ($labelId) => (int) $labelId)
-        ->all();
-
-    $statusOptions = $taskStatuses->pluck('name', 'id')->prepend('', '')->all();
-    $userOptions = $users->pluck('name', 'id')->prepend(__('tasks.empty_assignee'), '')->all();
-    $labelOptions = $labels->pluck('name', 'id')->all();
-@endphp
-
 <div class="mb-3">
     {!! html()->label(__('tasks.fields.name'), 'name')->class('form-label') !!}
 
@@ -70,7 +57,7 @@
     {!! html()->label(__('tasks.fields.labels'), 'labels')->class('form-label') !!}
 
     {!! html()
-        ->select('labels[]', $labelOptions, $selectedLabelIds)
+        ->select('labels[]', $labelOptions, old('labels', $selectedLabelIds))
         ->id('labels')
         ->class('form-control' . ($errors->has('labels') || $errors->has('labels.*') ? ' is-invalid' : ''))
         ->multiple()

@@ -10,6 +10,7 @@ use App\Models\Task;
 use App\Repositories\TaskRepository;
 use App\Services\TaskCreator;
 use App\Services\TaskDeleter;
+use App\Services\TaskFormDataBuilder;
 use App\Services\TaskUpdater;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -30,16 +31,9 @@ class TaskController extends Controller
         );
     }
 
-    public function create(TaskRepository $taskRepository): View
+    public function create(TaskFormDataBuilder $taskFormDataBuilder): View
     {
-        $taskStatuses = $taskRepository->findAllStatuses();
-        $users = $taskRepository->findAllUsers();
-        $labels = $taskRepository->findAllLabels();
-
-        return view(
-            'tasks.create',
-            compact('taskStatuses', 'users', 'labels')
-        );
+        return view('tasks.create', $taskFormDataBuilder->build());
     }
 
     public function store(
@@ -62,16 +56,9 @@ class TaskController extends Controller
 
     public function edit(
         Task $task,
-        TaskRepository $taskRepository
+        TaskFormDataBuilder $taskFormDataBuilder
     ): View {
-        $taskStatuses = $taskRepository->findAllStatuses();
-        $users = $taskRepository->findAllUsers();
-        $labels = $taskRepository->findAllLabels();
-
-        return view(
-            'tasks.edit',
-            compact('task', 'taskStatuses', 'users', 'labels')
-        );
+        return view('tasks.edit', $taskFormDataBuilder->build($task));
     }
 
     public function update(
