@@ -201,27 +201,27 @@ class LabelControllerTest extends TestCase
         ]);
     }
 
-    public function testAuthenticatedUserCannotDeleteLabelUsedInTask(): void
+    public function testAuthenticatedUserCanDeleteLabelUsedInTask(): void
     {
         $user = User::factory()->create();
         $label = Label::factory()->create();
-
-        $task = Task::factory()->create([
-            'created_by_id' => $user->id,
-        ]);
+        $task = Task::factory()->create();
 
         $task->labels()->attach($label);
 
         $response = $this->actingAs($user)->delete(route('labels.destroy', $label));
 
         $response->assertRedirect(route('labels.index'));
-        $response->assertSessionHas('flash_notification');
 
-        $this->assertDatabaseHas('labels', [
+        $this->assertDatabaseMissing('labels', [
             'id' => $label->id,
         ]);
 
-        $this->assertDatabaseHas('label_task', [
+        $this->assertDatabaseHas('tasks', [
+            'id' => $task->id,
+        ]);
+
+        $this->assertDatabaseMissing('label_task', [
             'label_id' => $label->id,
             'task_id' => $task->id,
         ]);

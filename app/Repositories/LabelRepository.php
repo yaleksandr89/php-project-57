@@ -35,11 +35,4 @@ class LabelRepository
         $label
             ->delete();
     }
-
-    public function isLabelUsed(Label $label): bool
-    {
-        return $label
-            ->tasks()
-            ->exists();
-    }
 }

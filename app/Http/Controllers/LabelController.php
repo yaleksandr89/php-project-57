@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\LabelIsUsedException;
 use App\Http\Requests\StoreLabelRequest;
 use App\Http\Requests\UpdateLabelRequest;
 use App\Models\Label;
@@ -68,15 +67,11 @@ class LabelController extends Controller implements HasMiddleware
         Label $label,
         LabelDeleter $labelDeleter
     ): RedirectResponse {
-        try {
-            Gate::authorize('delete', $label);
+        Gate::authorize('delete', $label);
 
-            $labelDeleter->delete($label);
+        $labelDeleter->delete($label);
 
-            flash(__('labels.flash.deleted'))->success();
-        } catch (LabelIsUsedException) {
-            flash(__('labels.flash.delete_failed'))->error();
-        }
+        flash(__('labels.flash.deleted'))->success();
 
         return redirect()->route('labels.index');
     }
