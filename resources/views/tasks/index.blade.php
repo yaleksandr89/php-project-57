@@ -153,7 +153,7 @@
                                             {{ __('tasks.buttons.edit') }}
                                         </a>
 
-                                        @if ($task->created_by_id === auth()->id())
+                                        @can('delete', $task)
                                             {{ html()->form('POST', route('tasks.destroy', $task))->open() }}
                                                 @csrf
                                                 @method('DELETE')
@@ -166,7 +166,7 @@
                                                     {{ __('tasks.buttons.delete') }}
                                                 </a>
                                             {{ html()->form()->close() }}
-                                        @endif
+                                        @endcan
                                     </div>
                                 </td>
                             @endauth

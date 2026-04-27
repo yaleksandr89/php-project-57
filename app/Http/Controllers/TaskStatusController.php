@@ -14,8 +14,11 @@ use App\Services\TaskStatusDeleter;
 use App\Services\TaskStatusUpdater;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Gate;
 
-class TaskStatusController extends Controller
+class TaskStatusController extends Controller implements HasMiddleware
 {
     public function index(TaskStatusRepository $taskStatusRepository): View
     {
@@ -24,8 +27,10 @@ class TaskStatusController extends Controller
         return view('task_statuses.index', compact('taskStatuses'));
     }
 
-    public function create()
+    public function create(): View
     {
+        Gate::authorize('create', TaskStatus::class);
+
         return view('task_statuses.create');
     }
 
@@ -33,6 +38,8 @@ class TaskStatusController extends Controller
         StoreTaskStatusRequest $storeTaskStatusRequest,
         TaskStatusCreator $taskStatusCreator
     ): RedirectResponse {
+        Gate::authorize('create', TaskStatus::class);
+
         $taskStatusCreator->create($storeTaskStatusRequest->validated());
 
         flash(__('task_statuses.flash.created'))->success();
@@ -42,6 +49,8 @@ class TaskStatusController extends Controller
 
     public function edit(TaskStatus $taskStatus): View
     {
+        Gate::authorize('update', $taskStatus);
+
         return view('task_statuses.edit', compact('taskStatus'));
     }
 
@@ -50,6 +59,8 @@ class TaskStatusController extends Controller
         TaskStatus $taskStatus,
         TaskStatusUpdater $taskStatusUpdater
     ): RedirectResponse {
+        Gate::authorize('update', $taskStatus);
+
         $taskStatusUpdater->update($taskStatus, $updateTaskStatusRequest->validated());
 
         flash(__('task_statuses.flash.updated'))->success();
@@ -62,6 +73,8 @@ class TaskStatusController extends Controller
         TaskStatusDeleter $taskStatusDeleter
     ): RedirectResponse {
         try {
+            Gate::authorize('delete', $taskStatus);
+
             $taskStatusDeleter->delete($taskStatus);
 
             flash(__('task_statuses.flash.deleted'))->success();
@@ -70,5 +83,12 @@ class TaskStatusController extends Controller
         }
 
         return redirect()->route('task_statuses.index');
+    }
+
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('auth', except: ['index']),
+        ];
     }
 }

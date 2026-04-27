@@ -14,8 +14,11 @@ use App\Services\LabelDeleter;
 use App\Services\LabelUpdater;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Gate;
 
-class LabelController extends Controller
+class LabelController extends Controller implements HasMiddleware
 {
     public function index(LabelRepository $labelRepository): View
     {
@@ -26,6 +29,8 @@ class LabelController extends Controller
 
     public function create(): View
     {
+        Gate::authorize('create', Label::class);
+
         return view('labels.create');
     }
 
@@ -42,6 +47,8 @@ class LabelController extends Controller
 
     public function edit(Label $label): View
     {
+        Gate::authorize('update', $label);
+
         return view('labels.edit', compact('label'));
     }
 
@@ -62,6 +69,8 @@ class LabelController extends Controller
         LabelDeleter $labelDeleter
     ): RedirectResponse {
         try {
+            Gate::authorize('delete', $label);
+
             $labelDeleter->delete($label);
 
             flash(__('labels.flash.deleted'))->success();
@@ -70,5 +79,12 @@ class LabelController extends Controller
         }
 
         return redirect()->route('labels.index');
+    }
+
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('auth', except: ['index']),
+        ];
     }
 }

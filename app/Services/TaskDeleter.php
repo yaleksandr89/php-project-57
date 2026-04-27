@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\Task;
-use App\Models\User;
 use App\Repositories\TaskRepository;
 
 class TaskDeleter
@@ -15,14 +14,8 @@ class TaskDeleter
     ) {
     }
 
-    public function delete(Task $task, User $user): bool
+    public function delete(Task $task): void
     {
-        if ($task->getAttribute('created_by_id') !== $user->id) {
-            return false;
-        }
-
         $this->taskRepository->delete($task);
-
-        return true;
     }
 }
