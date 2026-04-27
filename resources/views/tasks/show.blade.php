@@ -38,11 +38,11 @@
                     </tr>
                     <tr>
                         <th>{{ __('tasks.fields.creator') }}</th>
-                        <td>{{ $task->creator->name }}</td>
+                        <td>{{ $task->createdBy->name }}</td>
                     </tr>
                     <tr>
                         <th>{{ __('tasks.fields.assignee') }}</th>
-                        <td>{{ $task->assignee?->name ?? __('tasks.empty_assignee') }}</td>
+                        <td>{{ $task->assignedTo?->name ?? __('tasks.empty_assignee') }}</td>
                     </tr>
                     <tr>
                         <th>{{ __('tasks.fields.created_at') }}</th>

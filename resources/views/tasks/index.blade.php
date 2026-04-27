@@ -138,8 +138,8 @@
                                     <span class="badge bg-secondary">{{ $label->name }}</span>
                                 @endforeach
                             </td>
-                            <td>{{ $task->creator->name }}</td>
-                            <td>{{ $task->assignee?->name ?? __('tasks.empty_assignee') }}</td>
+                            <td>{{ $task->createdBy->name }}</td>
+                            <td>{{ $task->assignedTo?->name ?? __('tasks.empty_assignee') }}</td>
                             <td>{{ $task->created_at->format('d.m.Y') }}</td>
 
                             @auth

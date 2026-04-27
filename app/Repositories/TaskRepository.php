@@ -24,7 +24,7 @@ class TaskRepository
                 AllowedFilter::exact('assigned_to_id'),
                 AllowedFilter::scope('label_id'),
             )
-            ->with(['status', 'creator', 'assignee', 'labels'])
+            ->with(['status', 'createdBy', 'assignedTo', 'labels'])
             ->orderBy('id')
             ->paginate(15)
             ->withQueryString();
