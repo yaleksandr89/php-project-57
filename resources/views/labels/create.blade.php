@@ -8,13 +8,13 @@
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-sm sm:rounded-lg p-4">
-                {!! html()->form('POST', route('labels.store'))->open() !!}
+                {{ html()->form('POST', route('labels.store'))->open() }}
                     @csrf
 
                     @include('labels._form', [
                         'buttonText' => __('labels.buttons.create'),
                     ])
-                {!! html()->form()->close() !!}
+                {{ html()->form()->close() }}
             </div>
         </div>
     </div>

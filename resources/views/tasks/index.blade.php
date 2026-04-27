@@ -8,7 +8,7 @@
     <div class="py-6 pb-0">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-sm sm:rounded-lg p-4">
-                {!! html()->form('GET', route('tasks.index'))->open() !!}
+                {{ html()->form('GET', route('tasks.index'))->open() }}
                     <h3 class="h5 mb-3">{{ __('tasks.filters.title') }}</h3>
 
                     <div class="row g-3 align-items-end">
@@ -85,14 +85,14 @@
                         </div>
 
                         <div class="col-md-12 d-flex gap-2">
-                            {!! html()->submit(__('tasks.buttons.filter'))->class('btn btn-primary') !!}
+                            {{ html()->submit(__('tasks.buttons.filter'))->class('btn btn-primary') }}
 
                             <a href="{{ route('tasks.index') }}" class="btn btn-outline-secondary">
                                 {{ __('tasks.buttons.reset') }}
                             </a>
                         </div>
                     </div>
-                {!! html()->form()->close() !!}
+                {{ html()->form()->close() }}
             </div>
         </div>
     </div>
@@ -154,7 +154,7 @@
                                         </a>
 
                                         @if ($task->created_by_id === auth()->id())
-                                            {!! html()->form('POST', route('tasks.destroy', $task))->open() !!}
+                                            {{ html()->form('POST', route('tasks.destroy', $task))->open() }}
                                                 @csrf
                                                 @method('DELETE')
 
@@ -165,7 +165,7 @@
                                                 >
                                                     {{ __('tasks.buttons.delete') }}
                                                 </a>
-                                            {!! html()->form()->close() !!}
+                                            {{ html()->form()->close() }}
                                         @endif
                                     </div>
                                 </td>

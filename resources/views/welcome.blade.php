@@ -27,7 +27,7 @@
                     {{ Auth::user()->name }}
                 </a>
 
-                {!! html()->form('POST', route('logout'))->open() !!}
+                {{ html()->form('POST', route('logout'))->open() }}
                     @csrf
 
                     <a
@@ -37,7 +37,7 @@
                     >
                         Выход
                     </a>
-                {!! html()->form()->close() !!}
+                {{ html()->form()->close() }}
             @else
                 <a class="nav-link" href="{{ route('login') }}">
                     {{ __('auth.log_in') }}

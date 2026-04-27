@@ -41,7 +41,7 @@
                                             {{ __('task_statuses.index.edit') }}
                                         </a>
 
-                                        {!! html()->form('POST', route('task_statuses.destroy', $status))->open() !!}
+                                        {{ html()->form('POST', route('task_statuses.destroy', $status))->open() }}
                                             @csrf
                                             @method('DELETE')
 
@@ -52,7 +52,7 @@
                                             >
                                                 {{ __('task_statuses.index.delete') }}
                                             </a>
-                                        {!! html()->form()->close() !!}
+                                        {{ html()->form()->close() }}
                                     </div>
                                 </td>
                             @endauth

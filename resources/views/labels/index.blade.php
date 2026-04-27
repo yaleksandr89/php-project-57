@@ -43,7 +43,7 @@
                                             {{ __('labels.buttons.edit') }}
                                         </a>
 
-                                        {!! html()->form('POST', route('labels.destroy', $label))->open() !!}
+                                        {{ html()->form('POST', route('labels.destroy', $label))->open() }}
                                             @csrf
                                             @method('DELETE')
 
@@ -54,7 +54,7 @@
                                             >
                                                 {{ __('labels.buttons.delete') }}
                                             </a>
-                                        {!! html()->form()->close() !!}
+                                        {{ html()->form()->close() }}
                                     </div>
                                 </td>
                             @endauth
