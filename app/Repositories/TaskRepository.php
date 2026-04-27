@@ -53,21 +53,21 @@ class TaskRepository
     public function findAllStatuses(): Collection
     {
         return TaskStatus::query()
-            ->orderBy('id', 'asc')
+            ->orderBy('id')
             ->get();
     }
 
     public function findAllUsers(): Collection
     {
         return User::query()
-            ->orderBy('id', 'asc')
+            ->orderBy('id')
             ->get();
     }
 
     public function findAllLabels(): Collection
     {
         return Label::query()
-            ->orderBy('id', 'asc')
+            ->orderBy('id')
             ->get();
     }
 }
