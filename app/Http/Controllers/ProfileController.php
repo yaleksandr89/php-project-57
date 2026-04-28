@@ -41,6 +41,12 @@ class ProfileController extends Controller
             'password' => ['required', 'current_password'],
         ]);
 
+        if ($request->user()->createdTasks()->exists()) {
+            flash(__('profile.flash.delete_failed'))->error();
+
+            return redirect()->back();
+        }
+
         $user = $request->user();
 
         Auth::logout();

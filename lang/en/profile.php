@@ -19,5 +19,6 @@ return [
         'updated' => 'Profile updated successfully.',
         'password_updated' => 'Password updated successfully.',
         'deleted' => 'Account deleted successfully.',
+        'delete_failed' => 'You cannot delete your profile while you have created tasks.',
     ],
 ];
