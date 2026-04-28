@@ -14,12 +14,15 @@ use App\Services\TaskStatusDeleter;
 use App\Services\TaskStatusUpdater;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
-use Illuminate\Support\Facades\Gate;
 
-class TaskStatusController extends Controller implements HasMiddleware
+class TaskStatusController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index']);
+        $this->authorizeResource(TaskStatus::class, 'task_status');
+    }
+
     public function index(TaskStatusRepository $taskStatusRepository): View
     {
         $taskStatuses = $taskStatusRepository->getPaginated();
@@ -29,8 +32,6 @@ class TaskStatusController extends Controller implements HasMiddleware
 
     public function create(): View
     {
-        Gate::authorize('create', TaskStatus::class);
-
         return view('task_statuses.create');
     }
 
@@ -38,19 +39,14 @@ class TaskStatusController extends Controller implements HasMiddleware
         StoreTaskStatusRequest $storeTaskStatusRequest,
         TaskStatusCreator $taskStatusCreator
     ): RedirectResponse {
-        Gate::authorize('create', TaskStatus::class);
-
         $taskStatusCreator->create($storeTaskStatusRequest->validated());
 
         flash(__('task_statuses.flash.created'))->success();
-
         return redirect()->route('task_statuses.index');
     }
 
     public function edit(TaskStatus $taskStatus): View
     {
-        Gate::authorize('update', $taskStatus);
-
         return view('task_statuses.edit', compact('taskStatus'));
     }
 
@@ -59,12 +55,9 @@ class TaskStatusController extends Controller implements HasMiddleware
         TaskStatus $taskStatus,
         TaskStatusUpdater $taskStatusUpdater
     ): RedirectResponse {
-        Gate::authorize('update', $taskStatus);
-
         $taskStatusUpdater->update($taskStatus, $updateTaskStatusRequest->validated());
 
         flash(__('task_statuses.flash.updated'))->success();
-
         return redirect()->route('task_statuses.index');
     }
 
@@ -73,8 +66,6 @@ class TaskStatusController extends Controller implements HasMiddleware
         TaskStatusDeleter $taskStatusDeleter
     ): RedirectResponse {
         try {
-            Gate::authorize('delete', $taskStatus);
-
             $taskStatusDeleter->delete($taskStatus);
 
             flash(__('task_statuses.flash.deleted'))->success();
@@ -83,12 +74,5 @@ class TaskStatusController extends Controller implements HasMiddleware
         }
 
         return redirect()->route('task_statuses.index');
-    }
-
-    public static function middleware(): array
-    {
-        return [
-            new Middleware('auth', except: ['index']),
-        ];
     }
 }

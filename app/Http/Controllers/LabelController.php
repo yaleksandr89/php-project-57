@@ -13,12 +13,15 @@ use App\Services\LabelDeleter;
 use App\Services\LabelUpdater;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
-use Illuminate\Support\Facades\Gate;
 
-class LabelController extends Controller implements HasMiddleware
+class LabelController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index']);
+        $this->authorizeResource(Label::class, 'label');
+    }
+
     public function index(LabelRepository $labelRepository): View
     {
         $labels = $labelRepository->getPaginated();
@@ -28,8 +31,6 @@ class LabelController extends Controller implements HasMiddleware
 
     public function create(): View
     {
-        Gate::authorize('create', Label::class);
-
         return view('labels.create');
     }
 
@@ -40,14 +41,11 @@ class LabelController extends Controller implements HasMiddleware
         $labelCreator->create($storeLabelRequest->validated());
 
         flash(__('labels.flash.created'))->success();
-
         return redirect()->route('labels.index');
     }
 
     public function edit(Label $label): View
     {
-        Gate::authorize('update', $label);
-
         return view('labels.edit', compact('label'));
     }
 
@@ -59,7 +57,6 @@ class LabelController extends Controller implements HasMiddleware
         $labelUpdater->update($label, $updateLabelRequest->validated());
 
         flash(__('labels.flash.updated'))->success();
-
         return redirect()->route('labels.index');
     }
 
@@ -67,19 +64,9 @@ class LabelController extends Controller implements HasMiddleware
         Label $label,
         LabelDeleter $labelDeleter
     ): RedirectResponse {
-        Gate::authorize('delete', $label);
-
         $labelDeleter->delete($label);
 
         flash(__('labels.flash.deleted'))->success();
-
         return redirect()->route('labels.index');
-    }
-
-    public static function middleware(): array
-    {
-        return [
-            new Middleware('auth', except: ['index']),
-        ];
     }
 }

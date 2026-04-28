@@ -292,8 +292,9 @@ class TaskControllerTest extends TestCase
         ]);
 
         $response = $this->actingAs($anotherUser)->delete(route('tasks.destroy', $task));
+        $response->assertRedirect(route('tasks.index'));
+        $response->assertSessionHas('flash_notification');
 
-        $response->assertForbidden();
         $this->assertDatabaseHas('tasks', [
             'id' => $task->id,
         ]);

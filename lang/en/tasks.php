@@ -40,6 +40,7 @@ return [
         'created' => 'Task created successfully.',
         'updated' => 'Task updated successfully.',
         'deleted' => 'Task deleted successfully.',
+        'delete_failed' => 'Only the task creator can delete it.',
     ],
     'modal' => [
         'delete_title' => 'Delete task',
