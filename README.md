@@ -263,33 +263,21 @@ make lint-fix
 
 ### 1. Обзор приложения и демо-данные
 
-Youtube:
-
-[![Демонстрация работы](https://img.youtube.com/vi/NGe7HpNYsY4/0.jpg)](https://youtu.be/NGe7HpNYsY4)
-
-Альтернативные ссылки:
+Демонстрация работы:
 
 * Яндекс.Диск: https://disk.yandex.ru/i/2EjynfbLCvdJLg
 * Google Drive: https://drive.google.com/file/d/12uqgjVjzROM016D_HXs9Z90bKjrY5ZIe/view
 
 ### 2. Работа с задачами
 
-Youtube:
-
-[![Демонстрация работы](https://img.youtube.com/vi/HtRrP3eP18M/0.jpg)](https://youtu.be/HtRrP3eP18M)
-
-Альтернативные ссылки:
+Демонстрация работы:
 
 * Яндекс.Диск: https://disk.yandex.ru/i/a6tgYaHrw2XczA
 * Google Drive: https://drive.google.com/file/d/10bOZlNQR1_IKEaNKxV5mrP9GVdrrcmZA/view
 
 ### 3. Управление справочниками и ограничения
 
-Youtube:
-
-[![Демонстрация работы](https://img.youtube.com/vi/DDpWtPuWxPg/0.jpg)](https://youtu.be/DDpWtPuWxPg)
-
-Альтернативные ссылки:
+Демонстрация работы:
 
 * Яндекс.Диск: https://disk.yandex.ru/i/E4ywn8Nuf8lz3Q
 * Google Drive: https://drive.google.com/file/d/1E8MiMgj9HCZH75SezKBkM4i_d5CeASf0/view?usp=sharing
