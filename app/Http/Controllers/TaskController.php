@@ -21,10 +21,7 @@ class TaskController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except(['index']);
-        $this->authorizeResource(Task::class, 'task', [
-            'except' => ['destroy'], // Для реализации кастомного поведения (редирект на главнуюб + сообщение)
-        ]);
+        $this->authorizeResource(Task::class, 'task');
     }
 
     public function index(TaskRepository $taskRepository): View
@@ -83,7 +80,6 @@ class TaskController extends Controller
     public function destroy(Task $task, TaskDeleter $taskDeleter): RedirectResponse
     {
         try {
-            $this->authorize('delete', $task);
             $taskDeleter->delete($task);
 
             flash(__('tasks.flash.deleted'))->success();

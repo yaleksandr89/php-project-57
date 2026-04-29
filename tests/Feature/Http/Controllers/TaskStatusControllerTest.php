@@ -25,7 +25,7 @@ class TaskStatusControllerTest extends TestCase
     {
         $response = $this->get(route('task_statuses.create'));
 
-        $response->assertRedirect(route('login'));
+        $response->assertForbidden();
     }
 
     public function testGuestCannotStoreTaskStatus(): void
@@ -34,7 +34,7 @@ class TaskStatusControllerTest extends TestCase
             'name' => 'New status',
         ]);
 
-        $response->assertRedirect(route('login'));
+        $response->assertForbidden();
         $this->assertDatabaseMissing('task_statuses', ['name' => 'New status']);
     }
 
@@ -44,7 +44,7 @@ class TaskStatusControllerTest extends TestCase
 
         $response = $this->get(route('task_statuses.edit', $taskStatus));
 
-        $response->assertRedirect(route('login'));
+        $response->assertForbidden();
     }
 
     public function testGuestCannotUpdateTaskStatus(): void
@@ -57,7 +57,7 @@ class TaskStatusControllerTest extends TestCase
             'name' => 'Updated status',
         ]);
 
-        $response->assertRedirect(route('login'));
+        $response->assertForbidden();
         $this->assertDatabaseHas('task_statuses', [
             'id' => $taskStatus->id,
             'name' => 'Old status',
@@ -70,7 +70,7 @@ class TaskStatusControllerTest extends TestCase
 
         $response = $this->delete(route('task_statuses.destroy', $taskStatus));
 
-        $response->assertRedirect(route('login'));
+        $response->assertForbidden();
         $this->assertDatabaseHas('task_statuses', [
             'id' => $taskStatus->id,
         ]);

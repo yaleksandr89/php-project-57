@@ -14,18 +14,18 @@ class LabelPolicy
         return true;
     }
 
-    public function create(User $user): bool
+    public function create(?User $user): bool
     {
-        return true;
+        return $user !== null;
     }
 
-    public function update(User $user, Label $label): bool
+    public function update(?User $user, Label $label): bool
     {
-        return true;
+        return $user !== null;
     }
 
-    public function delete(User $user, Label $label): bool
+    public function delete(?User $user, Label $label): bool
     {
-        return true;
+        return $user !== null;
     }
 }

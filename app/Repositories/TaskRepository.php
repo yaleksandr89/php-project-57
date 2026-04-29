@@ -38,16 +38,14 @@ class TaskRepository
 
     public function update(Task $task, array $data): Task
     {
-        $task
-            ->update($data);
+        $task->update($data);
 
         return $task;
     }
 
     public function delete(Task $task): void
     {
-        $task
-            ->delete();
+        $task->delete();
     }
 
     public function findAllStatuses(): Collection

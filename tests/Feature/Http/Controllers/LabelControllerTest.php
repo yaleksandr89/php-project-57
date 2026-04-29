@@ -25,7 +25,7 @@ class LabelControllerTest extends TestCase
     {
         $response = $this->get(route('labels.create'));
 
-        $response->assertRedirect(route('login'));
+        $response->assertForbidden();
     }
 
     public function testGuestCannotStoreLabel(): void
@@ -35,7 +35,7 @@ class LabelControllerTest extends TestCase
             'description' => 'Bug description',
         ]);
 
-        $response->assertRedirect(route('login'));
+        $response->assertForbidden();
         $this->assertDatabaseMissing('labels', [
             'name' => 'bug',
         ]);
@@ -47,7 +47,7 @@ class LabelControllerTest extends TestCase
 
         $response = $this->get(route('labels.edit', $label));
 
-        $response->assertRedirect(route('login'));
+        $response->assertForbidden();
     }
 
     public function testGuestCannotUpdateLabel(): void
@@ -61,7 +61,7 @@ class LabelControllerTest extends TestCase
             'description' => 'Feature description',
         ]);
 
-        $response->assertRedirect(route('login'));
+        $response->assertForbidden();
         $this->assertDatabaseHas('labels', [
             'id' => $label->id,
             'name' => 'bug',
@@ -74,7 +74,7 @@ class LabelControllerTest extends TestCase
 
         $response = $this->delete(route('labels.destroy', $label));
 
-        $response->assertRedirect(route('login'));
+        $response->assertForbidden();
         $this->assertDatabaseHas('labels', [
             'id' => $label->id,
         ]);

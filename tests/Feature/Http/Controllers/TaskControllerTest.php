@@ -26,7 +26,7 @@ class TaskControllerTest extends TestCase
     {
         $response = $this->get(route('tasks.create'));
 
-        $response->assertRedirect(route('login'));
+        $response->assertForbidden();
     }
 
     public function testGuestCannotStoreTask(): void
@@ -41,7 +41,7 @@ class TaskControllerTest extends TestCase
             'assigned_to_id' => $assignee->id,
         ]);
 
-        $response->assertRedirect(route('login'));
+        $response->assertForbidden();
         $this->assertDatabaseMissing('tasks', [
             'name' => 'New task',
         ]);
@@ -53,7 +53,7 @@ class TaskControllerTest extends TestCase
 
         $response = $this->get(route('tasks.show', $task));
 
-        $response->assertRedirect(route('login'));
+        $response->assertOk();
     }
 
     public function testGuestCannotAccessTaskEditPage(): void
@@ -62,7 +62,7 @@ class TaskControllerTest extends TestCase
 
         $response = $this->get(route('tasks.edit', $task));
 
-        $response->assertRedirect(route('login'));
+        $response->assertForbidden();
     }
 
     public function testGuestCannotUpdateTask(): void
@@ -78,7 +78,7 @@ class TaskControllerTest extends TestCase
             'assigned_to_id' => $task->getAttribute('assigned_to_id'),
         ]);
 
-        $response->assertRedirect(route('login'));
+        $response->assertForbidden();
         $this->assertDatabaseHas('tasks', [
             'id' => $task->id,
             'name' => 'Old task',
@@ -91,7 +91,7 @@ class TaskControllerTest extends TestCase
 
         $response = $this->delete(route('tasks.destroy', $task));
 
-        $response->assertRedirect(route('login'));
+        $response->assertForbidden();
         $this->assertDatabaseHas('tasks', [
             'id' => $task->id,
         ]);
@@ -292,8 +292,7 @@ class TaskControllerTest extends TestCase
         ]);
 
         $response = $this->actingAs($anotherUser)->delete(route('tasks.destroy', $task));
-        $response->assertRedirect(route('tasks.index'));
-        $response->assertSessionHas('flash_notification');
+        $response->assertForbidden();
 
         $this->assertDatabaseHas('tasks', [
             'id' => $task->id,

@@ -14,23 +14,23 @@ class TaskPolicy
         return true;
     }
 
-    public function view(User $user, Task $task): bool
+    public function view(?User $user, Task $task): bool
     {
         return true;
     }
 
-    public function create(User $user): bool
+    public function create(?User $user): bool
     {
-        return true;
+        return $user !== null;
     }
 
-    public function update(User $user, Task $task): bool
+    public function update(?User $user, Task $task): bool
     {
-        return true;
+        return $user !== null;
     }
 
-    public function delete(User $user, Task $task): bool
+    public function delete(?User $user, Task $task): bool
     {
-        return $task->createdBy->is($user);
+        return $user !== null && $task->createdBy->is($user);
     }
 }

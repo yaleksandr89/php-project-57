@@ -14,18 +14,18 @@ class TaskStatusPolicy
         return true;
     }
 
-    public function create(User $user): bool
+    public function create(?User $user): bool
     {
-        return true;
+        return $user !== null;
     }
 
-    public function update(User $user, TaskStatus $taskStatus): bool
+    public function update(?User $user, TaskStatus $taskStatus): bool
     {
-        return true;
+        return $user !== null;
     }
 
-    public function delete(User $user, TaskStatus $taskStatus): bool
+    public function delete(?User $user, TaskStatus $taskStatus): bool
     {
-        return true;
+        return $user !== null;
     }
 }
