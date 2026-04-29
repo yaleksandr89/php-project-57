@@ -4,9 +4,6 @@ use App\Http\Controllers\LabelController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TaskStatusController;
-use App\Models\Label;
-use App\Models\Task;
-use App\Models\TaskStatus;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -24,17 +21,12 @@ Route::middleware('auth')->group(function () {
 });
 
 // Статусы задач
-Route::resource('task_statuses', TaskStatusController::class)
-    ->except(['show'])
-    ->names('task_statuses');
+Route::resource('task_statuses', TaskStatusController::class)->except(['show']);
 
 // Задачи
-Route::resource('tasks', TaskController::class)
-    ->names('tasks');
+Route::resource('tasks', TaskController::class);
 
 // Метки
-Route::resource('labels', LabelController::class)
-    ->except(['show'])
-    ->names('labels');
+Route::resource('labels', LabelController::class)->except(['show']);
 
 require __DIR__ . '/auth.php';

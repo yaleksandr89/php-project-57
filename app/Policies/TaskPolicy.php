@@ -31,6 +31,6 @@ class TaskPolicy
 
     public function delete(User $user, Task $task): bool
     {
-        return $task->getAttribute('created_by_id') === $user->id;
+        return $task->createdBy->is($user);
     }
 }
